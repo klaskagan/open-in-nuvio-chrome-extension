@@ -1,3 +1,24 @@
-<!doctype html><meta charset="utf-8"><title>Series watched confirmation</title><style>body{background:#202124;color:#eee;font:16px Arial;padding:50px}main{max-width:650px;margin:auto}.controls{display:flex;gap:60px;margin:30px 0}button{font:inherit;color:inherit;background:transparent;border:0;padding:10px;cursor:pointer}#results{color:#b9dec2}small{color:#aaa}</style><main><h1>The Handmaid’s Tale</h1><p>2017 · TV series</p><div data-attrid="kc:/tv/tv_program:media_actions_wholepage"><h2>Watch show</h2><div class="controls"><button>Watched</button><button>Want to watch</button></div></div><p id="results">Ready · simulated account, no real writes.</p><p><small>Local verification fixture using the shipped controls and confirmation dialog.</small></p></main><script>
-const roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const root=attach.call(this,{mode:"open"});roots.push({host:this,root});return root};let state={title:"The Handmaid’s Tale",watched:false,watchlist:true,episodes:66,completed:0},writes=0;window.NuvioSettings={get:()=>({enabled:true,traktControls:true,sites:{google:true}})};window.chrome={runtime:{id:'fixture',onMessage:{addListener:()=>{}},sendMessage:async m=>{if(m.type.endsWith('state'))return {...state};if(m.type.endsWith('series-plan'))return {title:state.title,count:66,total:66,token:'fixture'};if(m.type.endsWith('update')){writes++;document.getElementById('results').textContent='Saving simulated write (icon already toggled)…';await new Promise(r=>setTimeout(r,500));state={...state,[m.action]:m.desired,watchlist:false};document.getElementById('results').textContent='PASS · confirmed series action saved · '+writes+' simulated write(s)';return {...state};}throw Error('Unexpected '+m.type)}}};
-</script><script src="/open-in-nuvio/series-confirm.js"></script><script src="/open-in-nuvio/google-trakt.js"></script><script>NuvioGoogleTrakt.sync({id:'tt5834204',kind:'series',key:'show',target:document.querySelector('[data-attrid]'),valid:()=>true});</script>
+<!doctype html><meta charset="utf-8" /><title>Series watched confirmation</title
+><style>
+  body{background:#202124;color:#eee;font:16px Arial;padding:50px}main{max-width:650px;margin:auto}.controls{display:flex;gap:60px;margin:30px 0}button{font:inherit;color:inherit;background:transparent;border:0;padding:10px;cursor:pointer}#results{color:#b9dec2}small{color:#aaa}</style
+><main
+  ><h1>The Handmaid’s Tale</h1><p>2017 · TV series</p
+  ><div data-attrid="kc:/tv/tv_program:media_actions_wholepage"
+    ><h2>Watch show</h2
+    ><div class="controls"
+      ><button>Watched</button><button>Want to watch</button></div
+    ></div
+  ><p id="results">Ready · simulated account, no real writes.</p
+  ><p
+    ><small
+      >Local verification fixture using the shipped controls and confirmation
+      dialog.</small
+    ></p
+  ></main
+><script>
+  const roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const root=attach.call(this,{mode:"open"});roots.push({host:this,root});return root};let state={title:"The Handmaid’s Tale",watched:false,watchlist:true,episodes:66,completed:0},writes=0;window.NuvioSettings={get:()=>({enabled:true,traktControls:true,sites:{google:true}})};window.chrome={runtime:{id:'fixture',onMessage:{addListener:()=>{}},sendMessage:async m=>{if(m.type.endsWith('state'))return {...state};if(m.type.endsWith('series-plan'))return {title:state.title,count:66,total:66,token:'fixture'};if(m.type.endsWith('update')){writes++;document.getElementById('results').textContent='Saving simulated write (icon already toggled)…';await new Promise(r=>setTimeout(r,500));state={...state,[m.action]:m.desired,watchlist:false};document.getElementById('results').textContent='PASS · confirmed series action saved · '+writes+' simulated write(s)';return {...state};}throw Error('Unexpected '+m.type)}}};</script
+><script src="/open-in-nuvio/series-confirm.js"></script
+><script src="/open-in-nuvio/google-trakt.js"></script
+><script>
+  NuvioGoogleTrakt.sync({id:'tt5834204',kind:'series',key:'show',target:document.querySelector('[data-attrid]'),valid:()=>true});
+</script>

@@ -1,1 +1,78 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Open in Nuvio privacy</title><link rel="stylesheet" href="trakt.css"><main><h1>Open in Nuvio privacy policy</h1><p>Updated: 17 October 2026</p><p>Developer and support: klaskagan — klaskagan@gmail.com</p><p>Open in Nuvio adds title-navigation buttons to supported Trakt, IMDb and Google Search pages and optionally lets you update your Trakt watched history and watchlist.</p><h2>Information used</h2><p>The extension reads the current supported page&#x27;s movie or series identifiers, title, year, media type and, when needed to disambiguate a title, director names. On Trakt it can read matching title-summary entries from Trakt&#x27;s existing local browser cache. It does not forward unrelated cache entries or Trakt website authentication credentials.</p><p>If you enable Trakt integration and connect your account, it stores the OAuth access and refresh tokens issued for your account, together with the application&#x27;s public Client ID, in Chrome&#x27;s local extension storage. It reads your watched progress and watchlist as needed to display and update the selected title&#x27;s state. These credentials are restricted to trusted extension contexts; content scripts receive display preferences through a read-only message.</p><p>Settings are stored locally on this Chrome profile, not in Chrome Sync. Small title/status caches are used to avoid duplicate requests. The extension does not run analytics, advertising, tracking pixels or a developer-operated data collection server. It does not intentionally collect unrelated browsing history.</p><h2>External requests and actions</h2><p>Title resolution may request a Google redirect to identify its destination, or send title identifiers/title metadata to Trakt&#x27;s API. Google redirect resolution omits browser cookies and referrer information. OAuth/API requests go to Trakt&#x27;s authentication/API services over HTTPS. Trakt receives your access token for authenticated operations.</p><p>When you click a destination link or use the Nuvio shortcut, the selected identifier is sent to that destination or handed to the installed Nuvio application. Right-click resolution may open a temporary Trakt tab. Normal navigation to third-party websites follows their cookie and privacy settings.</p><p>Trakt watched/watchlist changes occur when you request them. Marking a movie unwatched removes all its recorded viewings. Series actions require confirmation and apply to the confirmed aired episodes in regular seasons, excluding specials. Trakt and other destinations handle received data under their own policies. Their servers may receive routine connection information such as IP address.</p><p>The developer does not sell user data, use it for advertising, or share it with third parties for unrelated purposes. The extension&#x27;s use of information is limited to the user-facing functions described here, consistent with the Chrome Web Store User Data Policy, including its Limited Use requirements.</p><h2>Control and retention</h2><p>You can pause the extension, hide buttons by site/destination, disable Trakt controls or change appearance in settings. Chrome manages site permissions and keyboard shortcuts. Disconnect locally removes this extension&#x27;s stored Trakt credentials; revoke the app in your Trakt account to revoke authorization at Trakt. Uninstalling removes Chrome local extension storage. Short-lived in-memory caches expire or clear when the worker/page closes. Trakt may retain history/watchlist changes until you remove them in Trakt or request another change.</p><p>If you email support, the developer receives whatever you choose to include. Do not send access tokens, refresh tokens, client secrets or account passwords. Questions or deletion requests about support correspondence can be sent to klaskagan@gmail.com.</p><h2>Changes</h2><p>This policy will be updated when the extension&#x27;s data handling changes. The latest published policy should match the version distributed through the Chrome Web Store. </p></main></html>
+<!doctype html>
+<html lang="en"
+  ><meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Open in Nuvio privacy</title
+  ><link rel="stylesheet" href="trakt.css" /><main
+    ><h1>Open in Nuvio privacy policy</h1><p>Updated: 17 October 2026</p
+    ><p>Developer and support: klaskagan — klaskagan@gmail.com</p
+    ><p
+      >Open in Nuvio adds title-navigation buttons to supported Trakt, IMDb and Google
+      Search pages and optionally lets you update your Trakt watched history and
+      watchlist.</p
+    ><h2>Information used</h2
+    ><p
+      >The extension reads the current supported page&#x27;s movie or series identifiers,
+      title, year, media type and, when needed to disambiguate a title, director names. On
+      Trakt it can read matching title-summary entries from Trakt&#x27;s existing local
+      browser cache. It does not forward unrelated cache entries or Trakt website
+      authentication credentials.</p
+    ><p
+      >If you enable Trakt integration and connect your account, it stores the OAuth
+      access and refresh tokens issued for your account, together with the
+      application&#x27;s public Client ID, in Chrome&#x27;s local extension storage. It
+      reads your watched progress and watchlist as needed to display and update the
+      selected title&#x27;s state. These credentials are restricted to trusted extension
+      contexts; content scripts receive display preferences through a read-only
+      message.</p
+    ><p
+      >Settings are stored locally on this Chrome profile, not in Chrome Sync. Small
+      title/status caches are used to avoid duplicate requests. The extension does not run
+      analytics, advertising, tracking pixels or a developer-operated data collection
+      server. It does not intentionally collect unrelated browsing history.</p
+    ><h2>External requests and actions</h2
+    ><p
+      >Title resolution may request a Google redirect to identify its destination, or send
+      title identifiers/title metadata to Trakt&#x27;s API. Google redirect resolution
+      omits browser cookies and referrer information. OAuth/API requests go to
+      Trakt&#x27;s authentication/API services over HTTPS. Trakt receives your access
+      token for authenticated operations.</p
+    ><p
+      >When you click a destination link or use the Nuvio shortcut, the selected
+      identifier is sent to that destination or handed to the installed Nuvio application.
+      Right-click resolution may open a temporary Trakt tab. Normal navigation to
+      third-party websites follows their cookie and privacy settings.</p
+    ><p
+      >Trakt watched/watchlist changes occur when you request them. Marking a movie
+      unwatched removes all its recorded viewings. Series actions require confirmation and
+      apply to the confirmed aired episodes in regular seasons, excluding specials. Trakt
+      and other destinations handle received data under their own policies. Their servers
+      may receive routine connection information such as IP address.</p
+    ><p
+      >The developer does not sell user data, use it for advertising, or share it with
+      third parties for unrelated purposes. The extension&#x27;s use of information is
+      limited to the user-facing functions described here, consistent with the Chrome Web
+      Store User Data Policy, including its Limited Use requirements.</p
+    ><h2>Control and retention</h2
+    ><p
+      >You can pause the extension, hide buttons by site/destination, disable Trakt
+      controls or change appearance in settings. Chrome manages site permissions and
+      keyboard shortcuts. Disconnect locally removes this extension&#x27;s stored Trakt
+      credentials; revoke the app in your Trakt account to revoke authorization at Trakt.
+      Uninstalling removes Chrome local extension storage. Short-lived in-memory caches
+      expire or clear when the worker/page closes. Trakt may retain history/watchlist
+      changes until you remove them in Trakt or request another change.</p
+    ><p
+      >If you email support, the developer receives whatever you choose to include. Do not
+      send access tokens, refresh tokens, client secrets or account passwords. Questions
+      or deletion requests about support correspondence can be sent to
+      klaskagan@gmail.com.</p
+    ><h2>Changes</h2
+    ><p
+      >This policy will be updated when the extension&#x27;s data handling changes. The
+      latest published policy should match the version distributed through the Chrome Web
+      Store.
+    </p></main
+  ></html
+>

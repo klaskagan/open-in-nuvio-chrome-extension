@@ -1,1 +1,6 @@
-{"unchangedWidth":{"callbacks":1000,"computedStyleReads":0,"cpuMs":0.86},"widthChanges":{"callbacks":100,"computedStyleReads":100,"cpuMs":125.19},"networkRequests":0,"note":"Synthetic Node/jsdom measurement; not Chrome page-load timing."}
+{
+  "unchangedWidth": { "callbacks": 1000, "computedStyleReads": 0, "cpuMs": 0.86 },
+  "widthChanges": { "callbacks": 100, "computedStyleReads": 100, "cpuMs": 125.19 },
+  "networkRequests": 0,
+  "note": "Synthetic Node/jsdom measurement; not Chrome page-load timing."
+}

@@ -1,40 +1,172 @@
-const {JSDOM}=require('jsdom');
-const {indexedDB}=require('fake-indexeddb');
-const fs=require('fs'),assert=require('assert');let n=0;
-const check=(v,m)=>{assert(v,m);n++;console.log('PASS '+m)};
-const wait=()=>new Promise(r=>setTimeout(r,150));
-(async()=>{
- const db=await new Promise((ok,no)=>{const r=indexedDB.open('trakt-query',1);r.onupgradeneeded=()=>r.result.createObjectStore('query-cache');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
- const row=(name,slug,id,type)=>['trakt-query-'+JSON.stringify(['query:'+name+':v2','hash','dependency:'+slug]),{state:{data:{title:slug,slug,type,tmdbId:id}}}];
- const records=[row('movieSummary','everything-everywhere-all-at-once-2022',545611,'movie'),row('showSummary','breaking-bad',1396,'show'),row('movieSummary','unrelated',999,'movie')];
- await new Promise(ok=>{const tx=db.transaction('query-cache','readwrite');for(const [key,value]of records)tx.objectStore('query-cache').put(value,key);tx.oncomplete=ok});db.close();
- const dom=new JSDOM('<body><h1>Loading title</h1>',{url:'https://app.trakt.tv/movies/everything-everywhere-all-at-once-2022',runScripts:'outside-only'});
- const w=dom.window;let cacheScans=0;w.indexedDB={open:indexedDB.open.bind(indexedDB),databases:()=>{cacheScans++;return indexedDB.databases();}};const old=w.Element.prototype.attachShadow;
- w.Element.prototype.attachShadow=function(o){const s=old.call(this,o);w.ui=s;return s};
- w.fetch=async url=>({url,ok:true,clone:()=>({json:async()=>({title:'Breaking Bad',ids:{slug:'breaking-bad',tmdb:1396}})})});
- for(const f of ['settings.js','button-icon.js','core.js','bridge.js','content.js'])w.eval(fs.readFileSync(require('path').join(__dirname,'../open-in-nuvio/',f),'utf8'));
- check(!w.document.querySelector('[data-nuvio]'),'No floating button while action bar is loading');
- await wait();
- check(!w.document.querySelector('[data-nuvio]'),'Resolved metadata does not show a floating button');
- w.document.body.insertAdjacentHTML('beforeend','<div class="trakt-summary-actions-bar"><button>Watched</button><button class="trakt-media-actions-popup-button">More</button></div>');
- await wait();const href=()=>w.ui.querySelector('a').getAttribute('href');
- check(href()==='nuvio://tmdb/movie/545611','Cached EEAAO movie resolves with no network response');
- const scans=cacheScans;w.dispatchEvent(new w.Event('nuvio:request'));await wait();check(cacheScans===scans,'Known title reuses memory result without scanning Trakt IndexedDB again');
- check(w.document.querySelector('.trakt-summary-actions-bar > [data-nuvio]'),'Inserted in action bar');
- check(w.document.querySelector('[data-nuvio]').nextElementSibling.classList.contains('trakt-media-actions-popup-button'),'Placed before More menu');
- w.history.pushState({},'','/shows/breaking-bad');await new Promise(r=>setTimeout(r,400));
- check(href()==='nuvio://tmdb/tv/1396','Cached TV title uses tv deep link');
- w.history.pushState({},'','/shows/new-show');await new Promise(r=>setTimeout(r,300));check(href()===null,'Unrelated cached titles cannot resolve current title');
- w.history.pushState({},'','/shows/breaking-bad');await w.fetch('https://apiz.trakt.tv/shows/breaking-bad?extended=full');await wait();check(href()==='nuvio://tmdb/tv/1396','apiz response allowed');
- const bar=w.document.querySelector('.trakt-summary-actions-bar');bar.remove();await wait();check(!w.document.querySelector('[data-nuvio]'),'Button stays hidden when action bar removed');
- w.document.body.append(bar);await wait();check(w.document.querySelector('.trakt-summary-actions-bar > [data-nuvio]'),'Widget returns when action bar remounts');
- dom.window.close();
- const {IDBFactory}=require('fake-indexeddb');
- const empty=new IDBFactory();const fresh=new JSDOM('',{url:'https://app.trakt.tv/movies/missing',runScripts:'outside-only'});
- fresh.window.indexedDB=empty;fresh.window.fetch=async()=>({});fresh.window.eval(fs.readFileSync(require('path').join(__dirname,'../open-in-nuvio/bridge.js'),'utf8'));
- fresh.window.dispatchEvent(new fresh.window.Event('nuvio:request'));await wait();
- check((await empty.databases()).length===0,'Missing database is never created');fresh.window.close();
- const db2=await new Promise(ok=>{const r=indexedDB.open('trakt-query');r.onsuccess=()=>ok(r.result)});
- await new Promise(ok=>{const tx=db2.transaction('query-cache','readonly');const r=tx.objectStore('query-cache').getAll();r.onsuccess=()=>check(JSON.stringify(r.result.sort((a,b)=>a.state.data.tmdbId-b.state.data.tmdbId))===JSON.stringify(records.map(x=>x[1]).sort((a,b)=>a.state.data.tmdbId-b.state.data.tmdbId)),'Trakt cache entries unchanged');tx.oncomplete=ok});db2.close();
- console.log('TOTAL '+n+' cache and placement checks passed');
-})().catch(e=>{console.error(e);process.exit(1)});
+const { JSDOM } = require('jsdom');
+const { indexedDB } = require('fake-indexeddb');
+const fs = require('fs'),
+  assert = require('assert');
+let n = 0;
+const check = (v, m) => {
+  assert(v, m);
+  n++;
+  console.log('PASS ' + m);
+};
+const wait = () => new Promise((r) => setTimeout(r, 150));
+(async () => {
+  const db = await new Promise((ok, no) => {
+    const r = indexedDB.open('trakt-query', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('query-cache');
+    r.onsuccess = () => ok(r.result);
+    r.onerror = () => no(r.error);
+  });
+  const row = (name, slug, id, type) => [
+    'trakt-query-' +
+      JSON.stringify(['query:' + name + ':v2', 'hash', 'dependency:' + slug]),
+    { state: { data: { title: slug, slug, type, tmdbId: id } } },
+  ];
+  const records = [
+    row('movieSummary', 'everything-everywhere-all-at-once-2022', 545611, 'movie'),
+    row('showSummary', 'breaking-bad', 1396, 'show'),
+    row('movieSummary', 'unrelated', 999, 'movie'),
+  ];
+  await new Promise((ok) => {
+    const tx = db.transaction('query-cache', 'readwrite');
+    for (const [key, value] of records) tx.objectStore('query-cache').put(value, key);
+    tx.oncomplete = ok;
+  });
+  db.close();
+  const dom = new JSDOM('<body><h1>Loading title</h1>', {
+    url: 'https://app.trakt.tv/movies/everything-everywhere-all-at-once-2022',
+    runScripts: 'outside-only',
+  });
+  const w = dom.window;
+  let cacheScans = 0;
+  w.indexedDB = {
+    open: indexedDB.open.bind(indexedDB),
+    databases: () => {
+      cacheScans++;
+      return indexedDB.databases();
+    },
+  };
+  const old = w.Element.prototype.attachShadow;
+  w.Element.prototype.attachShadow = function (o) {
+    const s = old.call(this, o);
+    w.ui = s;
+    return s;
+  };
+  w.fetch = async (url) => ({
+    url,
+    ok: true,
+    clone: () => ({
+      json: async () => ({
+        title: 'Breaking Bad',
+        ids: { slug: 'breaking-bad', tmdb: 1396 },
+      }),
+    }),
+  });
+  for (const f of ['settings.js', 'button-icon.js', 'core.js', 'bridge.js', 'content.js'])
+    w.eval(
+      fs.readFileSync(require('path').join(__dirname, '../open-in-nuvio/', f), 'utf8'),
+    );
+  check(
+    !w.document.querySelector('[data-nuvio]'),
+    'No floating button while action bar is loading',
+  );
+  await wait();
+  check(
+    !w.document.querySelector('[data-nuvio]'),
+    'Resolved metadata does not show a floating button',
+  );
+  w.document.body.insertAdjacentHTML(
+    'beforeend',
+    '<div class="trakt-summary-actions-bar"><button>Watched</button><button class="trakt-media-actions-popup-button">More</button></div>',
+  );
+  await wait();
+  const href = () => w.ui.querySelector('a').getAttribute('href');
+  check(
+    href() === 'nuvio://tmdb/movie/545611',
+    'Cached EEAAO movie resolves with no network response',
+  );
+  const scans = cacheScans;
+  w.dispatchEvent(new w.Event('nuvio:request'));
+  await wait();
+  check(
+    cacheScans === scans,
+    'Known title reuses memory result without scanning Trakt IndexedDB again',
+  );
+  check(
+    w.document.querySelector('.trakt-summary-actions-bar > [data-nuvio]'),
+    'Inserted in action bar',
+  );
+  check(
+    w.document
+      .querySelector('[data-nuvio]')
+      .nextElementSibling.classList.contains('trakt-media-actions-popup-button'),
+    'Placed before More menu',
+  );
+  w.history.pushState({}, '', '/shows/breaking-bad');
+  await new Promise((r) => setTimeout(r, 400));
+  check(href() === 'nuvio://tmdb/tv/1396', 'Cached TV title uses tv deep link');
+  w.history.pushState({}, '', '/shows/new-show');
+  await new Promise((r) => setTimeout(r, 300));
+  check(href() === null, 'Unrelated cached titles cannot resolve current title');
+  w.history.pushState({}, '', '/shows/breaking-bad');
+  await w.fetch('https://apiz.trakt.tv/shows/breaking-bad?extended=full');
+  await wait();
+  check(href() === 'nuvio://tmdb/tv/1396', 'apiz response allowed');
+  const bar = w.document.querySelector('.trakt-summary-actions-bar');
+  bar.remove();
+  await wait();
+  check(
+    !w.document.querySelector('[data-nuvio]'),
+    'Button stays hidden when action bar removed',
+  );
+  w.document.body.append(bar);
+  await wait();
+  check(
+    w.document.querySelector('.trakt-summary-actions-bar > [data-nuvio]'),
+    'Widget returns when action bar remounts',
+  );
+  dom.window.close();
+  const { IDBFactory } = require('fake-indexeddb');
+  const empty = new IDBFactory();
+  const fresh = new JSDOM('', {
+    url: 'https://app.trakt.tv/movies/missing',
+    runScripts: 'outside-only',
+  });
+  fresh.window.indexedDB = empty;
+  fresh.window.fetch = async () => ({});
+  fresh.window.eval(
+    fs.readFileSync(
+      require('path').join(__dirname, '../open-in-nuvio/bridge.js'),
+      'utf8',
+    ),
+  );
+  fresh.window.dispatchEvent(new fresh.window.Event('nuvio:request'));
+  await wait();
+  check((await empty.databases()).length === 0, 'Missing database is never created');
+  fresh.window.close();
+  const db2 = await new Promise((ok) => {
+    const r = indexedDB.open('trakt-query');
+    r.onsuccess = () => ok(r.result);
+  });
+  await new Promise((ok) => {
+    const tx = db2.transaction('query-cache', 'readonly');
+    const r = tx.objectStore('query-cache').getAll();
+    r.onsuccess = () =>
+      check(
+        JSON.stringify(
+          r.result.sort((a, b) => a.state.data.tmdbId - b.state.data.tmdbId),
+        ) ===
+          JSON.stringify(
+            records
+              .map((x) => x[1])
+              .sort((a, b) => a.state.data.tmdbId - b.state.data.tmdbId),
+          ),
+        'Trakt cache entries unchanged',
+      );
+    tx.oncomplete = ok;
+  });
+  db2.close();
+  console.log('TOTAL ' + n + ' cache and placement checks passed');
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

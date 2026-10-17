@@ -29,15 +29,19 @@ The source/development configuration deliberately leaves the release Client ID b
 
 ## Development and tests
 
-Requires Node.js 18 or newer (20+ recommended) and Python 3 for the optional store-packaging tool.
+Requires Node.js 20 or newer and Python 3 for the optional store-packaging tool.
 
-```
+```sh
+npm ci --ignore-scripts
 npm ci --ignore-scripts --prefix validation
+npm run format:check
 npm test --prefix validation
 npm run benchmark --prefix validation
 ```
 
 Tests use jsdom/fake IndexedDB and simulated account/network responses. No real user history/watchlist writes occur. Recorded public catalog responses are included as fixtures. Browser fixture pages can be served locally with `python3 -m http.server 8767`; inspect `validation/release-browser-tests.html`. These fixtures do not replace the final installed-Chrome OAuth/worker/Nuvio smoke test.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the source file map, editing workflow, and release boundaries. Run `npm run format` after editing, or configure your editor to use this repository’s pinned Prettier version on save.
 
 ## Privacy and support
 

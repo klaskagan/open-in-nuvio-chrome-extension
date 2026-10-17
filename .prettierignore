@@ -1,0 +1,7 @@
+node_modules/
+dist/
+validation/fixtures/
+licenses/
+**/licenses/
+**/package-lock.json
+*.zip

@@ -1,1 +1,67 @@
-const fs=require('fs'),path=require('path'),assert=require('assert');const root=path.resolve(__dirname,'../open-in-nuvio'),manifest=JSON.parse(fs.readFileSync(root+'/manifest.json'));let n=0;const check=(v,m)=>{assert(v,m);console.log('PASS '+m);n++};check(manifest.manifest_version===3,'Release uses Manifest V3');check(manifest.minimum_chrome_version==='116','Supported Chrome baseline declared');check(!manifest.permissions.includes('tabs')&&!manifest.permissions.includes('history')&&!manifest.host_permissions.includes('<all_urls>'),'No unrestricted tabs/history/all-sites permissions');for(const c of manifest.content_scripts){check(c.js.every(f=>fs.existsSync(root+'/'+f)),'Manifest scripts exist for '+c.matches[0]);if(c.js.includes('settings.js'))check(c.js.indexOf('content-settings.js')<c.js.indexOf('settings.js'),'Content preferences adapter precedes settings on '+c.matches[0]);}for(const [size,file]of Object.entries(manifest.icons)){const b=fs.readFileSync(root+'/'+file);check(b.toString('ascii',1,4)==='PNG'&&b.readUInt32BE(16)===Number(size)&&b.readUInt32BE(20)===Number(size),'Toolbar icon dimensions match '+size+'px');}for(const file of ['LICENSE','THIRD-PARTY-NOTICES.md','privacy.html','licenses/dashboard-icons-Apache-2.0.txt'])check(fs.existsSync(root+'/'+file),'Release includes '+file);for(const file of fs.readdirSync(root).filter(f=>f.endsWith('.html'))){const html=fs.readFileSync(root+'/'+file,'utf8');check(!/<script\b[^>]*src=["']https?:/i.test(html),'No remote executable script in '+file);for(const match of html.matchAll(/(?:src|href)=["']([^"']+\.(?:js|css))["']/g))check(fs.existsSync(root+'/'+match[1]),'Local HTML resource exists: '+match[1]);}check(/clientId:''/.test(fs.readFileSync(root+'/trakt-config.js','utf8')),'Development/source build has no bundled account or personal app configuration');check(fs.readFileSync(root+'/popup.html','utf8').includes('klaskagan@gmail.com'),'Support contact included');console.log('TOTAL '+n+' release preflight checks passed');
+const fs = require('fs'),
+  path = require('path'),
+  assert = require('assert');
+const root = path.resolve(__dirname, '../open-in-nuvio'),
+  manifest = JSON.parse(fs.readFileSync(root + '/manifest.json'));
+let n = 0;
+const check = (v, m) => {
+  assert(v, m);
+  console.log('PASS ' + m);
+  n++;
+};
+check(manifest.manifest_version === 3, 'Release uses Manifest V3');
+check(manifest.minimum_chrome_version === '116', 'Supported Chrome baseline declared');
+check(
+  !manifest.permissions.includes('tabs') &&
+    !manifest.permissions.includes('history') &&
+    !manifest.host_permissions.includes('<all_urls>'),
+  'No unrestricted tabs/history/all-sites permissions',
+);
+for (const c of manifest.content_scripts) {
+  check(
+    c.js.every((f) => fs.existsSync(root + '/' + f)),
+    'Manifest scripts exist for ' + c.matches[0],
+  );
+  if (c.js.includes('settings.js'))
+    check(
+      c.js.indexOf('content-settings.js') < c.js.indexOf('settings.js'),
+      'Content preferences adapter precedes settings on ' + c.matches[0],
+    );
+}
+for (const [size, file] of Object.entries(manifest.icons)) {
+  const b = fs.readFileSync(root + '/' + file);
+  check(
+    b.toString('ascii', 1, 4) === 'PNG' &&
+      b.readUInt32BE(16) === Number(size) &&
+      b.readUInt32BE(20) === Number(size),
+    'Toolbar icon dimensions match ' + size + 'px',
+  );
+}
+for (const file of [
+  'LICENSE',
+  'THIRD-PARTY-NOTICES.md',
+  'privacy.html',
+  'licenses/dashboard-icons-Apache-2.0.txt',
+])
+  check(fs.existsSync(root + '/' + file), 'Release includes ' + file);
+for (const file of fs.readdirSync(root).filter((f) => f.endsWith('.html'))) {
+  const html = fs.readFileSync(root + '/' + file, 'utf8');
+  check(
+    !/<script\b[^>]*src=["']https?:/i.test(html),
+    'No remote executable script in ' + file,
+  );
+  for (const match of html.matchAll(/(?:src|href)=["']([^"']+\.(?:js|css))["']/g))
+    check(
+      fs.existsSync(root + '/' + match[1]),
+      'Local HTML resource exists: ' + match[1],
+    );
+}
+check(
+  /clientId:\s*(['\"])\1/.test(fs.readFileSync(root + '/trakt-config.js', 'utf8')),
+  'Development/source build has no bundled account or personal app configuration',
+);
+check(
+  fs.readFileSync(root + '/popup.html', 'utf8').includes('klaskagan@gmail.com'),
+  'Support contact included',
+);
+console.log('TOTAL ' + n + ' release preflight checks passed');

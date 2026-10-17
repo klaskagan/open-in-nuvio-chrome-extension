@@ -1,33 +1,47 @@
-<!doctype html><meta charset="utf-8"><title>IMDb extension browser checks</title>
-<style>body{margin:0;background:#1f1f1f;color:#eee;font:16px Arial,sans-serif;padding:45px}.tag{color:#f5c518;font-weight:bold;letter-spacing:2px;font-size:13px}h1{font-size:44px;margin:18px 0 8px;font-weight:500}.sub,.note{color:#aaa;line-height:1.5}.layout{display:grid;grid-template-columns:1fr 420px;gap:50px;max-width:1150px;margin-top:35px}.synopsis{font-size:18px;line-height:1.6;max-width:620px}.watch-area{display:flex;flex-direction:column;gap:8px}.ipc-split-button{display:flex;min-height:54px;border-radius:30px;background:#f5c518;overflow:hidden}.ipc-split-button button{background:transparent;border:0;padding:10px 17px;color:#111;font-weight:700;font-size:15px;text-align:left}.ipc-split-button button:first-child{flex:1}.watched{height:48px;background:none;border:1px solid #5799d9;border-radius:30px;color:#7cbcff;text-align:left;padding:10px 18px;font-weight:bold}.results{font:13px/1.7 monospace;margin-top:35px;color:#99dec0}.fail{color:#ff9c9c}.note{font-size:12px;max-width:1050px;margin-top:28px}@media(max-width:800px){.layout{grid-template-columns:1fr}.watch-area{max-width:420px}body{padding:24px}}</style>
-<div class="tag">IMDb LAYOUT · EXTENSION TEST FIXTURE</div><h1>The Pianist</h1><div class="sub">2002 · 2h 30m</div>
-<div class="layout"><div class="synopsis">During WWII, acclaimed Polish musician Władysław faces various struggles as he loses contact with his family.<p class="sub">The extension’s two actions appear immediately above the native watchlist control.</p></div><aside class="watch-area" id="watch-area"></aside></div>
-<p class="note">Local regression fixture using IMDb’s verified watchlist structure and the shipped extension script. This is not a screenshot of the live IMDb website.</p><div class="results" id="results"></div>
+<!doctype html><meta charset="utf-8" /><title>IMDb extension browser checks</title>
+<style>
+  body{margin:0;background:#1f1f1f;color:#eee;font:16px Arial,sans-serif;padding:45px}.tag{color:#f5c518;font-weight:bold;letter-spacing:2px;font-size:13px}h1{font-size:44px;margin:18px 0 8px;font-weight:500}.sub,.note{color:#aaa;line-height:1.5}.layout{display:grid;grid-template-columns:1fr 420px;gap:50px;max-width:1150px;margin-top:35px}.synopsis{font-size:18px;line-height:1.6;max-width:620px}.watch-area{display:flex;flex-direction:column;gap:8px}.ipc-split-button{display:flex;min-height:54px;border-radius:30px;background:#f5c518;overflow:hidden}.ipc-split-button button{background:transparent;border:0;padding:10px 17px;color:#111;font-weight:700;font-size:15px;text-align:left}.ipc-split-button button:first-child{flex:1}.watched{height:48px;background:none;border:1px solid #5799d9;border-radius:30px;color:#7cbcff;text-align:left;padding:10px 18px;font-weight:bold}.results{font:13px/1.7 monospace;margin-top:35px;color:#99dec0}.fail{color:#ff9c9c}.note{font-size:12px;max-width:1050px;margin-top:28px}@media(max-width:800px){.layout{grid-template-columns:1fr}.watch-area{max-width:420px}body{padding:24px}}
+</style>
+<div class="tag">IMDb LAYOUT · EXTENSION TEST FIXTURE</div><h1>The Pianist</h1
+><div class="sub">2002 · 2h 30m</div>
+<div class="layout"
+  ><div class="synopsis"
+    >During WWII, acclaimed Polish musician Władysław faces various struggles as he loses
+    contact with his family.<p class="sub"
+      >The extension’s two actions appear immediately above the native watchlist
+      control.</p
+    ></div
+  ><aside class="watch-area" id="watch-area"></aside
+></div>
+<p class="note"
+  >Local regression fixture using IMDb’s verified watchlist structure and the shipped
+  extension script. This is not a screenshot of the live IMDb website.</p
+><div class="results" id="results"></div>
 <script>
-(async()=>{
- let count=0;const results=document.querySelector('#results');const check=(v,m)=>{if(!v)throw new Error(m);count++;const d=document.createElement('div');d.textContent='PASS '+m;results.append(d)};const wait=()=>new Promise(r=>setTimeout(r,300));
- try {
- // The production manifest runs this script on IMDb; localhost is only the harness.
- history.replaceState({},'','/title/tt0253474/?ref_=test');
- const ld=document.createElement('script');ld.type='application/ld+json';const setMeta=(id,type)=>ld.textContent=JSON.stringify({'@type':type,url:'https://www.imdb.com/title/'+id+'/'});setMeta('tt0253474','Movie');document.head.append(ld);
- const attach=Element.prototype.attachShadow;let ui;Element.prototype.attachShadow=function(o){const s=attach.call(this,o);if(this.hasAttribute('data-nuvio-imdb'))ui=s;return s};
- for(const file of ['settings.js','button-icon.js','imdb.js']) await new Promise((ok,no)=>{const s=document.createElement('script');s.src='/open-in-nuvio/'+file;s.onload=ok;s.onerror=no;document.head.append(s)});
- check(!document.querySelector('[data-nuvio-imdb]'),'No floating buttons during loading');
- document.querySelector('#watch-area').innerHTML='<div class="ipc-split-button"><button data-testid="tm-box-wl-button">＋ Add to Watchlist<br><small>Added by 2.9M users</small></button><button aria-label="More lists">⌄</button></div><button class="watched">◉ Mark as watched</button>';
- await wait();
- const host=()=>document.querySelector('[data-nuvio-imdb]');const link=c=>ui.querySelector(c);
- check(host()?.nextElementSibling?.classList.contains('ipc-split-button'),'Both actions sit immediately above Add to Watchlist');
- check(link('.nuvio').href==='nuvio://imdb/movie/tt0253474','Exact Nuvio movie link');
- check(link('.trakt').href==='https://app.trakt.tv/movies/tt0253474','Exact Trakt movie link');
- check(link('.trakt').target==='_blank'&&link('.trakt').rel.includes('noopener'),'Trakt opens safely in a new tab');
- const box=host().getBoundingClientRect(),watch=document.querySelector('.ipc-split-button').getBoundingClientRect();
- check(Math.abs(box.width-watch.width)<2 && box.bottom<=watch.top,'Buttons match watchlist width and render above it');
- check(ui.querySelectorAll('a').length===2,'Exactly two extension buttons');
- history.pushState({},'','/title/tt0903747/');await wait();check(!host(),'Stale movie metadata hidden on series navigation');
- setMeta('tt0903747','TVSeries');await wait();check(link('.nuvio').href==='nuvio://imdb/series/tt0903747','Series opens Nuvio series details');check(link('.trakt').href==='https://app.trakt.tv/shows/tt0903747','Series opens exact Trakt show');
- history.pushState({},'','/title/tt0903747/reviews/');await wait();check(!host(),'Subpages have no buttons');
- history.pushState({},'','/title/tt0253474/');setMeta('tt0253474','Movie');await wait();check(host(),'Return navigation restores inline buttons');
- const final=document.createElement('div');final.textContent=count+' browser checks passed';results.append(final);document.title=count+' PASS — IMDb extension tests';
- }catch(e){results.classList.add('fail');results.textContent+='FAIL '+e.message;document.title='FAIL — IMDb extension tests'}
-})();
+  (async()=>{
+   let count=0;const results=document.querySelector('#results');const check=(v,m)=>{if(!v)throw new Error(m);count++;const d=document.createElement('div');d.textContent='PASS '+m;results.append(d)};const wait=()=>new Promise(r=>setTimeout(r,300));
+   try {
+   // The production manifest runs this script on IMDb; localhost is only the harness.
+   history.replaceState({},'','/title/tt0253474/?ref_=test');
+   const ld=document.createElement('script');ld.type='application/ld+json';const setMeta=(id,type)=>ld.textContent=JSON.stringify({'@type':type,url:'https://www.imdb.com/title/'+id+'/'});setMeta('tt0253474','Movie');document.head.append(ld);
+   const attach=Element.prototype.attachShadow;let ui;Element.prototype.attachShadow=function(o){const s=attach.call(this,o);if(this.hasAttribute('data-nuvio-imdb'))ui=s;return s};
+   for(const file of ['settings.js','button-icon.js','imdb.js']) await new Promise((ok,no)=>{const s=document.createElement('script');s.src='/open-in-nuvio/'+file;s.onload=ok;s.onerror=no;document.head.append(s)});
+   check(!document.querySelector('[data-nuvio-imdb]'),'No floating buttons during loading');
+   document.querySelector('#watch-area').innerHTML='<div class="ipc-split-button"><button data-testid="tm-box-wl-button">＋ Add to Watchlist<br><small>Added by 2.9M users</small></button><button aria-label="More lists">⌄</button></div><button class="watched">◉ Mark as watched</button>';
+   await wait();
+   const host=()=>document.querySelector('[data-nuvio-imdb]');const link=c=>ui.querySelector(c);
+   check(host()?.nextElementSibling?.classList.contains('ipc-split-button'),'Both actions sit immediately above Add to Watchlist');
+   check(link('.nuvio').href==='nuvio://imdb/movie/tt0253474','Exact Nuvio movie link');
+   check(link('.trakt').href==='https://app.trakt.tv/movies/tt0253474','Exact Trakt movie link');
+   check(link('.trakt').target==='_blank'&&link('.trakt').rel.includes('noopener'),'Trakt opens safely in a new tab');
+   const box=host().getBoundingClientRect(),watch=document.querySelector('.ipc-split-button').getBoundingClientRect();
+   check(Math.abs(box.width-watch.width)<2 && box.bottom<=watch.top,'Buttons match watchlist width and render above it');
+   check(ui.querySelectorAll('a').length===2,'Exactly two extension buttons');
+   history.pushState({},'','/title/tt0903747/');await wait();check(!host(),'Stale movie metadata hidden on series navigation');
+   setMeta('tt0903747','TVSeries');await wait();check(link('.nuvio').href==='nuvio://imdb/series/tt0903747','Series opens Nuvio series details');check(link('.trakt').href==='https://app.trakt.tv/shows/tt0903747','Series opens exact Trakt show');
+   history.pushState({},'','/title/tt0903747/reviews/');await wait();check(!host(),'Subpages have no buttons');
+   history.pushState({},'','/title/tt0253474/');setMeta('tt0253474','Movie');await wait();check(host(),'Return navigation restores inline buttons');
+   const final=document.createElement('div');final.textContent=count+' browser checks passed';results.append(final);document.title=count+' PASS — IMDb extension tests';
+   }catch(e){results.classList.add('fail');results.textContent+='FAIL '+e.message;document.title='FAIL — IMDb extension tests'}
+  })();
 </script>

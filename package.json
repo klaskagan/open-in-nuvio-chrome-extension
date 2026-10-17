@@ -1,0 +1,16 @@
+{
+  "name": "open-in-nuvio-development",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm test --prefix validation",
+    "benchmark": "npm run benchmark --prefix validation"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}

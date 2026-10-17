@@ -1,3 +1,21 @@
-<!doctype html><meta charset="utf-8"><title>IMDb loading regression</title><style>body{background:#202124;color:white;font:16px Arial;padding:55px}main{max-width:750px;margin:auto}aside{max-width:390px;margin-top:40px}.watch{background:#f5c518;border:0;border-radius:25px;padding:15px;width:100%;font-weight:bold}#results{color:#aaddb9;margin-top:30px}</style><main><h1>The Pianist</h1><p>Local loading test · metadata removal, watchlist loading gap and control replacement.</p><aside><button class="watch" data-testid="tm-box-wl-button">Add to Watchlist</button></aside><p id="results">Running…</p></main><script id="movie-data" type="application/ld+json">{"@type":"Movie","url":"https://www.imdb.com/title/tt0253474/"}</script><script>history.replaceState({},'','/title/tt0253474/');window.chrome={runtime:{sendMessage:async()=>({})}};const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){return attach.call(this,{mode:'open'})};</script><script src="/open-in-nuvio/settings.js?v=1.6.3"></script><script src="/open-in-nuvio/button-icon.js?v=1.6.3"></script><script src="/open-in-nuvio/imdb.js?v=1.6.3"></script><script>
-setTimeout(async()=>{let missing=0,running=true;const host=document.querySelector('[data-nuvio-imdb]');function sample(){if(!running)return;if(!host?.isConnected)missing++;requestAnimationFrame(sample)}requestAnimationFrame(sample);const wait=()=>new Promise(r=>setTimeout(r,250));document.getElementById('movie-data').remove();await wait();const watch=document.querySelector('aside button');watch.remove();await wait();document.querySelector('aside').append(watch);await wait();document.querySelector('aside').innerHTML='<button class="watch" data-testid="tm-box-wl-button">Add to Watchlist</button>';await wait();running=false;document.getElementById('results').textContent=missing?'FAIL · '+missing+' frames without buttons':'PASS · no rendered frames lost buttons during all three loading transitions';document.title=missing?'FAIL hydration':'PASS hydration';},150);
+<!doctype html><meta charset="utf-8" /><title>IMDb loading regression</title
+><style>
+  body{background:#202124;color:white;font:16px Arial;padding:55px}main{max-width:750px;margin:auto}aside{max-width:390px;margin-top:40px}.watch{background:#f5c518;border:0;border-radius:25px;padding:15px;width:100%;font-weight:bold}#results{color:#aaddb9;margin-top:30px}</style
+><main
+  ><h1>The Pianist</h1
+  ><p
+    >Local loading test · metadata removal, watchlist loading gap and control
+    replacement.</p
+  ><aside
+    ><button class="watch" data-testid="tm-box-wl-button">Add to Watchlist</button></aside
+  ><p id="results">Running…</p></main
+><script id="movie-data" type="application/ld+json">
+  {"@type":"Movie","url":"https://www.imdb.com/title/tt0253474/"}</script
+><script>
+  history.replaceState({},'','/title/tt0253474/');window.chrome={runtime:{sendMessage:async()=>({})}};const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){return attach.call(this,{mode:'open'})};</script
+><script src="/open-in-nuvio/settings.js?v=1.6.3"></script
+><script src="/open-in-nuvio/button-icon.js?v=1.6.3"></script
+><script src="/open-in-nuvio/imdb.js?v=1.6.3"></script
+><script>
+  setTimeout(async()=>{let missing=0,running=true;const host=document.querySelector('[data-nuvio-imdb]');function sample(){if(!running)return;if(!host?.isConnected)missing++;requestAnimationFrame(sample)}requestAnimationFrame(sample);const wait=()=>new Promise(r=>setTimeout(r,250));document.getElementById('movie-data').remove();await wait();const watch=document.querySelector('aside button');watch.remove();await wait();document.querySelector('aside').append(watch);await wait();document.querySelector('aside').innerHTML='<button class="watch" data-testid="tm-box-wl-button">Add to Watchlist</button>';await wait();running=false;document.getElementById('results').textContent=missing?'FAIL · '+missing+' frames without buttons':'PASS · no rendered frames lost buttons during all three loading transitions';document.title=missing?'FAIL hydration':'PASS hydration';},150);
 </script>

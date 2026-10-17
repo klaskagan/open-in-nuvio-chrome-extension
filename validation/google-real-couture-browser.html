@@ -1,3 +1,38 @@
-<!doctype html><meta charset="utf-8"><title>Real catalog carousel regression</title><style>body{background:#202124;color:#eee;font:16px Arial;padding:30px}main{max-width:700px;margin:auto}aside{border:1px solid #555;border-radius:18px;padding:22px}.controls{display:flex;justify-content:space-around;margin:25px 0}button{font:inherit;background:none;color:inherit;border:0}#results{font:12px/1.6 monospace;color:#abd7b6}small{color:#aaa}</style><main><h1 data-attrid="title">Mados užkulisiai</h1><p data-attrid="subtitle">2025 m. ‧ Drama ‧ 1 val. 46 min.</p><div data-attrid="description"><span>Couture is a 2025 drama film written and directed by Alice Winocour. It stars Angelina Jolie, Louis Garrel, Ella Rumpf and Garance Marillier.</span></div><p data-attrid="VisualDigestWebResult"></p><p data-attrid="kc:/film/film:director"><a>Alice Winocour</a></p><aside><h2>Žiūrėti filmą</h2><div data-attrid="kc:/film/film:media_actions_wholepage"><div class="controls"><button>✓ <span>Žiūrėta</span></button><button>▯ <span>Noriu žiūrėti</span></button></div></div></aside><p><small>Local browser fixture using recorded public Trakt responses. Account status is simulated; no real account writes.</small></p><p id="results"></p></main><script>
-const sample={"title": "Mados užkulisiai", "subtitle": "2025 m. ‧ Drama ‧ 1 val. 46 min.", "digest": "", "description": "Couture is a 2025 drama film written and directed by Alice Winocour. It stars Angelina Jolie, Louis Garrel, Ella Rumpf and Garance Marillier.", "directors": ["Alice Winocour"], "id": "tt34688195"};history.replaceState({},'','/search?q='+encodeURIComponent(sample.title));let evidence;const handlers=[],roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const r=attach.call(this,o);roots.push({host:this,root:r});return r};window.chrome={storage:{local:{get:async()=>({nuvioSettings:{traktControls:true},nuvioTrakt:{clientId:'fixture',tokens:{access_token:'fixture',refresh_token:'fixture',created_at:Date.now()/1000,expires_in:3600}}})},onChanged:{addListener:()=>{}}},runtime:{id:'fixture',getURL:f=>'chrome-extension://fixture/'+f,onMessage:{addListener:f=>handlers.push(f)},sendMessage:m=>{if(m.type==='nuvio:trakt-state')return Promise.resolve({title:sample.title,watched:false,watchlist:true});evidence=m;return new Promise(r=>handlers.forEach(f=>f(m,{id:'fixture',url:'https://www.google.com/search?q=movie',frameId:0},r)));}}};const originalFetch=window.fetch.bind(window);window.fetch=async(url)=>{const u=new URL(url);const file=u.pathname.endsWith('/people')?'couture-people.json':sample.id==='tt34688195'?'couture-search.json':u.searchParams.get('query')==='2004'?'numeric-year-search.json':'shark-search.json';return originalFetch('/validation/fixtures/'+file);};
-</script><script src="/open-in-nuvio/settings.js"></script><script src="/open-in-nuvio/google-core.js"></script><script src="/open-in-nuvio/trakt-api.js"></script><script src="/open-in-nuvio/button-icon.js"></script><script src="/open-in-nuvio/google-trakt.js"></script><script src="/open-in-nuvio/google.js"></script><script>setTimeout(()=>{let n=0;const check=(v,m)=>{if(!v)throw Error(m);n++;document.getElementById('results').append(document.createTextNode('PASS '+m+' · '))};try{const root=roots.find(x=>x.host.hasAttribute('data-nuvio-google'))?.root;check(root?.querySelector('.imdb').href==='https://www.imdb.com/title/'+sample.id+'/','Actual catalog identity resolved');check(evidence.titles.every(t=>/\p{L}/u.test(t)),'No numeric title aliases');check(document.querySelectorAll('[data-nuvio-trakt-control]').length===2,'Both Trakt controls mounted');check(roots.filter(x=>x.host.hasAttribute('data-nuvio-trakt-control'))[1].root.querySelector('button').getAttribute('aria-pressed')==='true','Account state displayed');document.title=n+' PASS — '+sample.title;}catch(e){document.title='FAIL — real catalog';document.getElementById('results').textContent+='FAIL '+e.message;}},1200);</script>
+<!doctype html><meta charset="utf-8" /><title>Real catalog carousel regression</title
+><style>
+  body{background:#202124;color:#eee;font:16px Arial;padding:30px}main{max-width:700px;margin:auto}aside{border:1px solid #555;border-radius:18px;padding:22px}.controls{display:flex;justify-content:space-around;margin:25px 0}button{font:inherit;background:none;color:inherit;border:0}#results{font:12px/1.6 monospace;color:#abd7b6}small{color:#aaa}</style
+><main
+  ><h1 data-attrid="title">Mados užkulisiai</h1
+  ><p data-attrid="subtitle">2025 m. ‧ Drama ‧ 1 val. 46 min.</p
+  ><div data-attrid="description"
+    ><span
+      >Couture is a 2025 drama film written and directed by Alice Winocour. It stars
+      Angelina Jolie, Louis Garrel, Ella Rumpf and Garance Marillier.</span
+    ></div
+  ><p data-attrid="VisualDigestWebResult"></p
+  ><p data-attrid="kc:/film/film:director"><a>Alice Winocour</a></p
+  ><aside
+    ><h2>Žiūrėti filmą</h2
+    ><div data-attrid="kc:/film/film:media_actions_wholepage"
+      ><div class="controls"
+        ><button>✓ <span>Žiūrėta</span></button
+        ><button>▯ <span>Noriu žiūrėti</span></button></div
+      ></div
+    ></aside
+  ><p
+    ><small
+      >Local browser fixture using recorded public Trakt responses. Account status is
+      simulated; no real account writes.</small
+    ></p
+  ><p id="results"></p></main
+><script>
+  const sample={"title": "Mados užkulisiai", "subtitle": "2025 m. ‧ Drama ‧ 1 val. 46 min.", "digest": "", "description": "Couture is a 2025 drama film written and directed by Alice Winocour. It stars Angelina Jolie, Louis Garrel, Ella Rumpf and Garance Marillier.", "directors": ["Alice Winocour"], "id": "tt34688195"};history.replaceState({},'','/search?q='+encodeURIComponent(sample.title));let evidence;const handlers=[],roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const r=attach.call(this,o);roots.push({host:this,root:r});return r};window.chrome={storage:{local:{get:async()=>({nuvioSettings:{traktControls:true},nuvioTrakt:{clientId:'fixture',tokens:{access_token:'fixture',refresh_token:'fixture',created_at:Date.now()/1000,expires_in:3600}}})},onChanged:{addListener:()=>{}}},runtime:{id:'fixture',getURL:f=>'chrome-extension://fixture/'+f,onMessage:{addListener:f=>handlers.push(f)},sendMessage:m=>{if(m.type==='nuvio:trakt-state')return Promise.resolve({title:sample.title,watched:false,watchlist:true});evidence=m;return new Promise(r=>handlers.forEach(f=>f(m,{id:'fixture',url:'https://www.google.com/search?q=movie',frameId:0},r)));}}};const originalFetch=window.fetch.bind(window);window.fetch=async(url)=>{const u=new URL(url);const file=u.pathname.endsWith('/people')?'couture-people.json':sample.id==='tt34688195'?'couture-search.json':u.searchParams.get('query')==='2004'?'numeric-year-search.json':'shark-search.json';return originalFetch('/validation/fixtures/'+file);};</script
+><script src="/open-in-nuvio/settings.js"></script
+><script src="/open-in-nuvio/google-core.js"></script
+><script src="/open-in-nuvio/trakt-api.js"></script
+><script src="/open-in-nuvio/button-icon.js"></script
+><script src="/open-in-nuvio/google-trakt.js"></script
+><script src="/open-in-nuvio/google.js"></script
+><script>
+  setTimeout(()=>{let n=0;const check=(v,m)=>{if(!v)throw Error(m);n++;document.getElementById('results').append(document.createTextNode('PASS '+m+' · '))};try{const root=roots.find(x=>x.host.hasAttribute('data-nuvio-google'))?.root;check(root?.querySelector('.imdb').href==='https://www.imdb.com/title/'+sample.id+'/','Actual catalog identity resolved');check(evidence.titles.every(t=>/\p{L}/u.test(t)),'No numeric title aliases');check(document.querySelectorAll('[data-nuvio-trakt-control]').length===2,'Both Trakt controls mounted');check(roots.filter(x=>x.host.hasAttribute('data-nuvio-trakt-control'))[1].root.querySelector('button').getAttribute('aria-pressed')==='true','Account state displayed');document.title=n+' PASS — '+sample.title;}catch(e){document.title='FAIL — real catalog';document.getElementById('results').textContent+='FAIL '+e.message;}},1200);
+</script>

@@ -4,15 +4,15 @@
 
 ## Performance
 
-| Synthetic benchmark | Result |
-|---|---|
-| Google/IMDb/Trakt stable idle, 100 timer ticks each | 0 document queries each |
-| Google idle callback time | 15.74 ms / 100 ticks |
-| IMDb idle callback time | 0.38 ms / 100 ticks |
-| Trakt idle callback time | 19.17 ms / 100 ticks |
-| Adaptive unchanged width, 1,000 notifications | 0 computed-style reads; 0.86 ms |
-| Adaptive alternating widths, 100 notifications | 100 computed-style reads; 125.19 ms |
-| Adaptive network requests | 0 |
+| Synthetic benchmark                                 | Result                              |
+| --------------------------------------------------- | ----------------------------------- |
+| Google/IMDb/Trakt stable idle, 100 timer ticks each | 0 document queries each             |
+| Google idle callback time                           | 15.74 ms / 100 ticks                |
+| IMDb idle callback time                             | 0.38 ms / 100 ticks                 |
+| Trakt idle callback time                            | 19.17 ms / 100 ticks                |
+| Adaptive unchanged width, 1,000 notifications       | 0 computed-style reads; 0.86 ms     |
+| Adaptive alternating widths, 100 notifications      | 100 computed-style reads; 125.19 ms |
+| Adaptive network requests                           | 0                                   |
 
 Measurements are single-run Node/jsdom callback benchmarks, not Chrome page-load timings, user-visible latencies or battery estimates. Each idle benchmark uses 4,504 elements and synchronously invokes the timer count equivalent to 20 seconds. Stable processing retained zero document scans after the adaptive feature. Width callbacks with unchanged dimensions bail out; actual resize events perform bounded local style work.
 

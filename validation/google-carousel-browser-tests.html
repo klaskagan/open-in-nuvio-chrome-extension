@@ -1,3 +1,44 @@
-<!doctype html><meta charset="utf-8"><title>Alternate Google layout fixture</title><style>body{background:#202124;color:#eee;font:16px Arial;padding:35px}main{max-width:720px;margin:auto}aside{margin-top:25px;padding:22px;border:1px solid #555;border-radius:20px}.controls{display:flex;justify-content:space-around;margin:24px 0}button{background:none;color:#eee;border:0;font:inherit}#results{font:12px/1.7 monospace;color:#afd5b7}small{color:#aaa}</style><main><h1 data-attrid="title">Pirmoji nuodėmė</h1><p data-attrid="subtitle">2001 m. ‧ Trileris/Romantinis ‧ 1 val. 56 min.</p><div data-attrid="description"><span>-</span><span>„Originali nuodėmė“ – 2001 m. amerikiečių erotinis romantiškas trileris, kurio scenarijaus autorius ir režisierius yra Michaelas Cristoferis, o vaidina Antonio Banderasas ir Angelina Jolie. Filmas sukurtas pagal 1947 m. Cornello Woolricho romaną „Valsas į tamsą“, pagal kurį 1969 m.</span><span> </span><span>Vikipedija (anglų k.)</span><span>Original Sin is a 2001 American erotic romantic thriller film written and directed by Michael Cristofer and starring Antonio Banderas and Angelina Jolie. It is based on the 1947 novel Waltz into Darkness by Cornell Woolrich, which was previously made into the 1969 François Truffaut film Mississippi Mermaid.</span></div><aside><h2>Žiūrėti filmą</h2><div data-attrid="kc:/film/film:media_actions_wholepage"><div class="controls"><span>▶ Žiūrėti dabar</span><button>✓<span>Žiūrėta</span></button><button>▯<span>Noriu žiūrėti</span></button></div></div></aside><p><small>Local fixture built from the exact linked page’s title/subtitle and original-language description. Trakt replies are simulated.</small></p><p id="results"></p></main><script>
-history.replaceState({},'','/search?q=Ponas+ir+ponia+Smitai');let lookups=0;const roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const r=attach.call(this,o);roots.push({host:this,root:r});return r};window.chrome={storage:{local:{get:async()=>({nuvioSettings:{traktControls:true}})},onChanged:{addListener:()=>{}}},runtime:{id:'fixture',sendMessage:async m=>{if(m.type==='nuvio:trakt-identify'){lookups++;if(!m.titles.includes('Original Sin')||m.year!==2001)return {error:'Missing actual original-title evidence'};return {identity:{provider:'imdb',id:'tt0218922'}};}return {title:'Original Sin',watched:false,watchlist:true};}}};
-</script><script src="/open-in-nuvio/settings.js"></script><script src="/open-in-nuvio/button-icon.js"></script><script src="/open-in-nuvio/google-core.js"></script><script src="/open-in-nuvio/google-trakt.js"></script><script src="/open-in-nuvio/google.js"></script><script>setTimeout(()=>{let n=0;const check=(v,m)=>{if(!v)throw Error(m);n++;document.getElementById('results').append(document.createTextNode('PASS '+m+' · '))};try{const root=roots.find(x=>x.host.hasAttribute('data-nuvio-google'))?.root;check(lookups===1,'Panel fallback resolves once without ratings');check(root?.querySelector('.imdb').href==='https://www.imdb.com/title/tt0218922/','Correct movie identity');check(document.querySelectorAll('[data-nuvio-trakt-control]').length===2,'Both Google controls replaced');const controls=roots.filter(x=>x.host.hasAttribute('data-nuvio-trakt-control'));check(controls[1].root.querySelector('button').getAttribute('aria-pressed')==='true','Trakt watchlist status displayed');document.title=n+' PASS — alternate Google layout';}catch(e){document.title='FAIL — alternate Google layout';document.getElementById('results').textContent+='FAIL '+e.message;}},500);</script>
+<!doctype html><meta charset="utf-8" /><title>Alternate Google layout fixture</title
+><style>
+  body{background:#202124;color:#eee;font:16px Arial;padding:35px}main{max-width:720px;margin:auto}aside{margin-top:25px;padding:22px;border:1px solid #555;border-radius:20px}.controls{display:flex;justify-content:space-around;margin:24px 0}button{background:none;color:#eee;border:0;font:inherit}#results{font:12px/1.7 monospace;color:#afd5b7}small{color:#aaa}</style
+><main
+  ><h1 data-attrid="title">Pirmoji nuodėmė</h1
+  ><p data-attrid="subtitle">2001 m. ‧ Trileris/Romantinis ‧ 1 val. 56 min.</p
+  ><div data-attrid="description"
+    ><span>-</span
+    ><span
+      >„Originali nuodėmė“ – 2001 m. amerikiečių erotinis romantiškas trileris, kurio
+      scenarijaus autorius ir režisierius yra Michaelas Cristoferis, o vaidina Antonio
+      Banderasas ir Angelina Jolie. Filmas sukurtas pagal 1947 m. Cornello Woolricho
+      romaną „Valsas į tamsą“, pagal kurį 1969 m.</span
+    ><span> </span><span>Vikipedija (anglų k.)</span
+    ><span
+      >Original Sin is a 2001 American erotic romantic thriller film written and directed
+      by Michael Cristofer and starring Antonio Banderas and Angelina Jolie. It is based
+      on the 1947 novel Waltz into Darkness by Cornell Woolrich, which was previously made
+      into the 1969 François Truffaut film Mississippi Mermaid.</span
+    ></div
+  ><aside
+    ><h2>Žiūrėti filmą</h2
+    ><div data-attrid="kc:/film/film:media_actions_wholepage"
+      ><div class="controls"
+        ><span>▶ Žiūrėti dabar</span><button>✓<span>Žiūrėta</span></button
+        ><button>▯<span>Noriu žiūrėti</span></button></div
+      ></div
+    ></aside
+  ><p
+    ><small
+      >Local fixture built from the exact linked page’s title/subtitle and
+      original-language description. Trakt replies are simulated.</small
+    ></p
+  ><p id="results"></p></main
+><script>
+  history.replaceState({},'','/search?q=Ponas+ir+ponia+Smitai');let lookups=0;const roots=[];const attach=Element.prototype.attachShadow;Element.prototype.attachShadow=function(o){const r=attach.call(this,o);roots.push({host:this,root:r});return r};window.chrome={storage:{local:{get:async()=>({nuvioSettings:{traktControls:true}})},onChanged:{addListener:()=>{}}},runtime:{id:'fixture',sendMessage:async m=>{if(m.type==='nuvio:trakt-identify'){lookups++;if(!m.titles.includes('Original Sin')||m.year!==2001)return {error:'Missing actual original-title evidence'};return {identity:{provider:'imdb',id:'tt0218922'}};}return {title:'Original Sin',watched:false,watchlist:true};}}};</script
+><script src="/open-in-nuvio/settings.js"></script
+><script src="/open-in-nuvio/button-icon.js"></script
+><script src="/open-in-nuvio/google-core.js"></script
+><script src="/open-in-nuvio/google-trakt.js"></script
+><script src="/open-in-nuvio/google.js"></script
+><script>
+  setTimeout(()=>{let n=0;const check=(v,m)=>{if(!v)throw Error(m);n++;document.getElementById('results').append(document.createTextNode('PASS '+m+' · '))};try{const root=roots.find(x=>x.host.hasAttribute('data-nuvio-google'))?.root;check(lookups===1,'Panel fallback resolves once without ratings');check(root?.querySelector('.imdb').href==='https://www.imdb.com/title/tt0218922/','Correct movie identity');check(document.querySelectorAll('[data-nuvio-trakt-control]').length===2,'Both Google controls replaced');const controls=roots.filter(x=>x.host.hasAttribute('data-nuvio-trakt-control'));check(controls[1].root.querySelector('button').getAttribute('aria-pressed')==='true','Trakt watchlist status displayed');document.title=n+' PASS — alternate Google layout';}catch(e){document.title='FAIL — alternate Google layout';document.getElementById('results').textContent+='FAIL '+e.message;}},500);
+</script>

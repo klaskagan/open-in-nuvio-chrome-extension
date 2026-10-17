@@ -1,7 +1,127 @@
-const fs=require('fs'),vm=require('vm'),assert=require('assert');const base=__dirname+'/../open-in-nuvio/';let n=0;const check=(v,m)=>{assert(v,m);console.log('PASS '+m);n++};
-(async()=>{let listener,posts=[],staleList=false,staleWatched=false,failRead=false,failWrite=false;const token={clientId:'fixture',tokens:{access_token:'fixture',refresh_token:'fixture',created_at:Date.now()/1000,expires_in:3600}};const chrome={runtime:{id:'x',getURL:f=>'chrome-extension://x/'+f,onMessage:{addListener:f=>listener=f}},storage:{local:{get:async()=>({nuvioTrakt:token})}}};const response=v=>({ok:true,json:async()=>v,headers:{get:()=> '1'}});const context=vm.createContext({chrome,URL,URLSearchParams,Map,Set,Date,Promise,AbortSignal,NuvioSettings:{ready:Promise.resolve(),get:()=>({enabled:true,traktControls:true,sites:{google:true}})},NuvioGoogle:{googleHost:()=>true},fetch:async(url,options)=>{check(options.cache==='no-store','Trakt reads/writes bypass browser HTTP cache');if(options.method==='POST'){if(failWrite)return {ok:false,status:500};posts.push({url,body:JSON.parse(options.body)});return response({added:{movies:1},deleted:{movies:1}});}if(failRead&&!url.includes('/search/')){failRead=false;throw Error('Simulated read failure after successful write');}if(url.includes('/search/'))return response([{type:'movie',movie:{title:'Mr. & Mrs. Smith',ids:{imdb:'tt0356910',trakt:20}}}]);if(url.includes('/watchlist/'))return response(staleList?[{movie:{ids:{trakt:20}}}]:[]);return response(staleWatched?[{id:1}]:[]);}});vm.runInContext(fs.readFileSync(base+'trakt-api.js','utf8'),context);const send=(action,desired)=>new Promise(resolve=>listener({type:'nuvio:trakt-update',id:'tt0356910',kind:'movie',action,desired},{id:'x',url:'https://www.google.com/search?q=smith',frameId:0},resolve));
- let r=await send('watchlist',true);check(r.watchlist===true,'Successful add survives stale watchlist GET');const count=posts.length;staleList=false;r=await send('watchlist',false);check(posts.length===count+1&&posts.at(-1).url.endsWith('/remove'),'Quick removal still writes when stale GET says absent');check(r.watchlist===false,'Remove acknowledgement stays unselected');
- r=await send('watched',true);check(r.watched&&r.plays>=1,'Successful watched acknowledgement survives stale history');const before=posts.length;r=await send('watched',false);check(posts.length===before+1&&posts.at(-1).body.movies[0].ids.trakt===20,'Direct unwatch writes exact movie despite stale pre-read');check(!r.watched&&r.plays===0,'Direct unwatch response clears watched state');
- // Fail only the reconciliation read after the POST, not the pre-write checks.
- const original=context.fetch;context.fetch=async(url,o)=>{const result=await original(url,o);if(o.method==='POST')failRead=true;return result};r=await send('watchlist',true);check(!r.error&&r.watchlist,'Successful write is not reported as failure when reconciliation read fails');
- failWrite=true;r=await send('watchlist',false);check(r.error,'Actual write failure still returns an error for UI rollback');console.log('TOTAL '+n+' Trakt consistency checks passed');})().catch(e=>{console.error(e);process.exitCode=1});
+const fs = require('fs'),
+  vm = require('vm'),
+  assert = require('assert');
+const base = __dirname + '/../open-in-nuvio/';
+let n = 0;
+const check = (v, m) => {
+  assert(v, m);
+  console.log('PASS ' + m);
+  n++;
+};
+(async () => {
+  let listener,
+    posts = [],
+    staleList = false,
+    staleWatched = false,
+    failRead = false,
+    failWrite = false;
+  const token = {
+    clientId: 'fixture',
+    tokens: {
+      access_token: 'fixture',
+      refresh_token: 'fixture',
+      created_at: Date.now() / 1000,
+      expires_in: 3600,
+    },
+  };
+  const chrome = {
+    runtime: {
+      id: 'x',
+      getURL: (f) => 'chrome-extension://x/' + f,
+      onMessage: { addListener: (f) => (listener = f) },
+    },
+    storage: { local: { get: async () => ({ nuvioTrakt: token }) } },
+  };
+  const response = (v) => ({
+    ok: true,
+    json: async () => v,
+    headers: { get: () => '1' },
+  });
+  const context = vm.createContext({
+    chrome,
+    URL,
+    URLSearchParams,
+    Map,
+    Set,
+    Date,
+    Promise,
+    AbortSignal,
+    NuvioSettings: {
+      ready: Promise.resolve(),
+      get: () => ({ enabled: true, traktControls: true, sites: { google: true } }),
+    },
+    NuvioGoogle: { googleHost: () => true },
+    fetch: async (url, options) => {
+      check(options.cache === 'no-store', 'Trakt reads/writes bypass browser HTTP cache');
+      if (options.method === 'POST') {
+        if (failWrite) return { ok: false, status: 500 };
+        posts.push({ url, body: JSON.parse(options.body) });
+        return response({ added: { movies: 1 }, deleted: { movies: 1 } });
+      }
+      if (failRead && !url.includes('/search/')) {
+        failRead = false;
+        throw Error('Simulated read failure after successful write');
+      }
+      if (url.includes('/search/'))
+        return response([
+          {
+            type: 'movie',
+            movie: { title: 'Mr. & Mrs. Smith', ids: { imdb: 'tt0356910', trakt: 20 } },
+          },
+        ]);
+      if (url.includes('/watchlist/'))
+        return response(staleList ? [{ movie: { ids: { trakt: 20 } } }] : []);
+      return response(staleWatched ? [{ id: 1 }] : []);
+    },
+  });
+  vm.runInContext(fs.readFileSync(base + 'trakt-api.js', 'utf8'), context);
+  const send = (action, desired) =>
+    new Promise((resolve) =>
+      listener(
+        { type: 'nuvio:trakt-update', id: 'tt0356910', kind: 'movie', action, desired },
+        { id: 'x', url: 'https://www.google.com/search?q=smith', frameId: 0 },
+        resolve,
+      ),
+    );
+  let r = await send('watchlist', true);
+  check(r.watchlist === true, 'Successful add survives stale watchlist GET');
+  const count = posts.length;
+  staleList = false;
+  r = await send('watchlist', false);
+  check(
+    posts.length === count + 1 && posts.at(-1).url.endsWith('/remove'),
+    'Quick removal still writes when stale GET says absent',
+  );
+  check(r.watchlist === false, 'Remove acknowledgement stays unselected');
+  r = await send('watched', true);
+  check(
+    r.watched && r.plays >= 1,
+    'Successful watched acknowledgement survives stale history',
+  );
+  const before = posts.length;
+  r = await send('watched', false);
+  check(
+    posts.length === before + 1 && posts.at(-1).body.movies[0].ids.trakt === 20,
+    'Direct unwatch writes exact movie despite stale pre-read',
+  );
+  check(!r.watched && r.plays === 0, 'Direct unwatch response clears watched state');
+  // Fail only the reconciliation read after the POST, not the pre-write checks.
+  const original = context.fetch;
+  context.fetch = async (url, o) => {
+    const result = await original(url, o);
+    if (o.method === 'POST') failRead = true;
+    return result;
+  };
+  r = await send('watchlist', true);
+  check(
+    !r.error && r.watchlist,
+    'Successful write is not reported as failure when reconciliation read fails',
+  );
+  failWrite = true;
+  r = await send('watchlist', false);
+  check(r.error, 'Actual write failure still returns an error for UI rollback');
+  console.log('TOTAL ' + n + ' Trakt consistency checks passed');
+})().catch((e) => {
+  console.error(e);
+  process.exitCode = 1;
+});

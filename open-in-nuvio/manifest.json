@@ -17,9 +17,7 @@
         "https://www.trakt.tv/*",
         "https://app.trakt.tv/*"
       ],
-      "js": [
-        "bridge.js"
-      ],
+      "js": ["bridge.js"],
       "run_at": "document_start",
       "world": "MAIN"
     },
@@ -39,17 +37,8 @@
       "run_at": "document_start"
     },
     {
-      "matches": [
-        "https://www.imdb.com/*",
-        "https://imdb.com/*",
-        "https://m.imdb.com/*"
-      ],
-      "js": [
-        "content-settings.js",
-        "settings.js",
-        "button-icon.js",
-        "imdb.js"
-      ],
+      "matches": ["https://www.imdb.com/*", "https://imdb.com/*", "https://m.imdb.com/*"],
+      "js": ["content-settings.js", "settings.js", "button-icon.js", "imdb.js"],
       "run_at": "document_start"
     },
     {
@@ -90,11 +79,7 @@
     "https://www.trakt.tv/*",
     "https://app.trakt.tv/*"
   ],
-  "permissions": [
-    "contextMenus",
-    "storage",
-    "identity"
-  ],
+  "permissions": ["contextMenus", "storage", "identity"],
   "action": {
     "default_title": "Nuvio settings",
     "default_popup": "popup.html"
@@ -103,10 +88,7 @@
     "page": "popup.html",
     "open_in_tab": true
   },
-  "optional_host_permissions": [
-    "https://api.trakt.tv/*",
-    "https://auth.trakt.tv/*"
-  ],
+  "optional_host_permissions": ["https://api.trakt.tv/*", "https://auth.trakt.tv/*"],
   "commands": {
     "open-current-nuvio": {
       "suggested_key": {

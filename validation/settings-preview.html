@@ -1,11 +1,137 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nuvio settings</title><link rel="stylesheet" href="/open-in-nuvio/popup.css"></head><body><header><div class="identity"><img id="brand-icon" alt=""><div><h1>Your shortcuts</h1><p>Nuvio · Trakt · IMDb</p></div></div><label class="switch master" title="Enable or pause the extension"><input id="enabled" type="checkbox" aria-label="Extension enabled"><span></span></label></header><main><p class="intro">Choose where your buttons appear. Changes apply to open pages automatically.</p><form id="settings" aria-label="Extension settings"><fieldset id="fields" disabled>
-<section class="card"><h2>Buttons by website</h2>
-<div class="site"><label class="site-heading"><span>Trakt</span><input type="checkbox" data-site="trakt" aria-label="Show buttons on Trakt"></label><div class="choices"><label><input type="checkbox" data-site-button="trakt.nuvio">Nuvio</label><label><input type="checkbox" data-site-button="trakt.imdb">IMDb</label></div></div>
-<div class="site"><label class="site-heading"><span>IMDb</span><input type="checkbox" data-site="imdb" aria-label="Show buttons on IMDb"></label><div class="choices"><label><input type="checkbox" data-site-button="imdb.nuvio">Nuvio</label><label><input type="checkbox" data-site-button="imdb.trakt">Trakt</label></div></div>
-<div class="site"><label class="site-heading"><span>Google Search</span><input type="checkbox" data-site="google" aria-label="Show buttons on Google Search"></label><div class="choices"><label><input type="checkbox" data-site-button="google.nuvio">Nuvio</label><label><input type="checkbox" data-site-button="google.trakt">Trakt</label><label><input type="checkbox" data-site-button="google.imdb">IMDb</label></div></div>
-</section>
-<section class="card"><h2>Look & navigation</h2><label class="select-setting" for="appearance">Button appearance<select id="appearance"><option value="auto">Automatic</option><option value="labels">Labels</option><option value="compact">Compact</option></select></label><small>Automatic uses icons when the button area becomes narrow.</small><label class="select-setting" for="linkTarget">Open website links in<select id="linkTarget"><option value="new">A new tab</option><option value="same">The current tab</option></select></label></section>
-<section class="card"><h2>Keyboard shortcut</h2><p>Open the current movie or series in Nuvio.</p><p><strong id="shortcut-value">Checking…</strong></p><button type="button" id="configure-shortcut">Change shortcut…</button></section><section class="card"><h2>Right-click shortcuts</h2><label class="setting"><span>Show “Open in Nuvio”<small>On supported title links.</small></span><input id="contextMenu" type="checkbox"></label><label class="setting"><span>Open Nuvio automatically<small>Turn off to confirm in the launcher.</small></span><input id="autoLaunch" type="checkbox"></label></section>
-<section class="card"><h2>Trakt account</h2><label class="setting"><span>Use Trakt controls on Google<small>Replace watched and watchlist actions with Trakt.</small></span><input id="traktControls" type="checkbox"></label><p><a href="trakt.html" target="_blank" rel="noopener">Connect or manage Trakt →</a></p></section></fieldset></form><p class="privacy"><a href="privacy.html" target="_blank" rel="noopener">Privacy policy</a> · <a href="mailto:klaskagan@gmail.com">Support</a><br>Preferences stay on this Mac. Site switches hide buttons; Chrome manages site permissions.</p></main><footer><button id="reset" type="button" disabled>Reset defaults</button><span id="status" role="status" aria-live="polite">Loading…</span><span id="version"></span></footer><script>
-let fixturePreferences;const listeners=[];window.chrome={runtime:{getManifest:()=>({version:'1.7.1'})},commands:{getAll:async()=>[{name:'open-current-nuvio',shortcut:'⌘⇧Y'}]},tabs:{create:async()=>({})},storage:{local:{get:async()=>({nuvioSettings:fixturePreferences}),set:async d=>{fixturePreferences=JSON.parse(JSON.stringify(d.nuvioSettings));listeners.forEach(f=>f({nuvioSettings:{newValue:fixturePreferences}},'local'));}},onChanged:{addListener:f=>listeners.push(f)}}};
-</script><script src="/open-in-nuvio/button-icon.js?v=1.7.1"></script><script src="/open-in-nuvio/settings.js?v=1.7.1"></script><script src="/open-in-nuvio/popup.js?v=1.7.1"></script></body></html>
+<!doctype html>
+<html lang="en"
+  ><head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width,initial-scale=1" /><title>Nuvio settings</title
+    ><link rel="stylesheet" href="/open-in-nuvio/popup.css" /></head
+  ><body
+    ><header
+      ><div class="identity"
+        ><img id="brand-icon" alt="" /><div
+          ><h1>Your shortcuts</h1><p>Nuvio · Trakt · IMDb</p></div
+        ></div
+      ><label class="switch master" title="Enable or pause the extension"
+        ><input
+          id="enabled"
+          type="checkbox"
+          aria-label="Extension enabled" /><span></span></label></header
+    ><main
+      ><p class="intro"
+        >Choose where your buttons appear. Changes apply to open pages automatically.</p
+      ><form id="settings" aria-label="Extension settings"
+        ><fieldset id="fields" disabled>
+          <section class="card"
+            ><h2>Buttons by website</h2>
+            <div class="site"
+              ><label class="site-heading"
+                ><span>Trakt</span
+                ><input
+                  type="checkbox"
+                  data-site="trakt"
+                  aria-label="Show buttons on Trakt" /></label
+              ><div class="choices"
+                ><label
+                  ><input type="checkbox" data-site-button="trakt.nuvio" />Nuvio</label
+                ><label
+                  ><input type="checkbox" data-site-button="trakt.imdb" />IMDb</label
+                ></div
+              ></div
+            >
+            <div class="site"
+              ><label class="site-heading"
+                ><span>IMDb</span
+                ><input
+                  type="checkbox"
+                  data-site="imdb"
+                  aria-label="Show buttons on IMDb" /></label
+              ><div class="choices"
+                ><label
+                  ><input type="checkbox" data-site-button="imdb.nuvio" />Nuvio</label
+                ><label
+                  ><input type="checkbox" data-site-button="imdb.trakt" />Trakt</label
+                ></div
+              ></div
+            >
+            <div class="site"
+              ><label class="site-heading"
+                ><span>Google Search</span
+                ><input
+                  type="checkbox"
+                  data-site="google"
+                  aria-label="Show buttons on Google Search" /></label
+              ><div class="choices"
+                ><label
+                  ><input type="checkbox" data-site-button="google.nuvio" />Nuvio</label
+                ><label
+                  ><input type="checkbox" data-site-button="google.trakt" />Trakt</label
+                ><label
+                  ><input type="checkbox" data-site-button="google.imdb" />IMDb</label
+                ></div
+              ></div
+            >
+          </section>
+          <section class="card"
+            ><h2>Look & navigation</h2
+            ><label class="select-setting" for="appearance"
+              >Button appearance<select id="appearance"
+                ><option value="auto">Automatic</option
+                ><option value="labels">Labels</option
+                ><option value="compact">Compact</option></select
+              ></label
+            ><small>Automatic uses icons when the button area becomes narrow.</small
+            ><label class="select-setting" for="linkTarget"
+              >Open website links in<select id="linkTarget"
+                ><option value="new">A new tab</option
+                ><option value="same">The current tab</option></select
+              ></label
+            ></section
+          >
+          <section class="card"
+            ><h2>Keyboard shortcut</h2><p>Open the current movie or series in Nuvio.</p
+            ><p><strong id="shortcut-value">Checking…</strong></p
+            ><button type="button" id="configure-shortcut"
+              >Change shortcut…</button
+            ></section
+          ><section class="card"
+            ><h2>Right-click shortcuts</h2
+            ><label class="setting"
+              ><span>Show “Open in Nuvio”<small>On supported title links.</small></span
+              ><input id="contextMenu" type="checkbox" /></label
+            ><label class="setting"
+              ><span
+                >Open Nuvio automatically<small
+                  >Turn off to confirm in the launcher.</small
+                ></span
+              ><input id="autoLaunch" type="checkbox" /></label
+          ></section>
+          <section class="card"
+            ><h2>Trakt account</h2
+            ><label class="setting"
+              ><span
+                >Use Trakt controls on Google<small
+                  >Replace watched and watchlist actions with Trakt.</small
+                ></span
+              ><input id="traktControls" type="checkbox" /></label
+            ><p
+              ><a href="trakt.html" target="_blank" rel="noopener"
+                >Connect or manage Trakt →</a
+              ></p
+            ></section
+          ></fieldset
+        ></form
+      ><p class="privacy"
+        ><a href="privacy.html" target="_blank" rel="noopener">Privacy policy</a> ·
+        <a href="mailto:klaskagan@gmail.com">Support</a><br />Preferences stay on this
+        Mac. Site switches hide buttons; Chrome manages site permissions.</p
+      ></main
+    ><footer
+      ><button id="reset" type="button" disabled>Reset defaults</button
+      ><span id="status" role="status" aria-live="polite">Loading…</span
+      ><span id="version"></span></footer
+    ><script>
+      let fixturePreferences;const listeners=[];window.chrome={runtime:{getManifest:()=>({version:'1.7.1'})},commands:{getAll:async()=>[{name:'open-current-nuvio',shortcut:'⌘⇧Y'}]},tabs:{create:async()=>({})},storage:{local:{get:async()=>({nuvioSettings:fixturePreferences}),set:async d=>{fixturePreferences=JSON.parse(JSON.stringify(d.nuvioSettings));listeners.forEach(f=>f({nuvioSettings:{newValue:fixturePreferences}},'local'));}},onChanged:{addListener:f=>listeners.push(f)}}};</script
+    ><script src="/open-in-nuvio/button-icon.js?v=1.7.1"></script
+    ><script src="/open-in-nuvio/settings.js?v=1.7.1"></script
+    ><script src="/open-in-nuvio/popup.js?v=1.7.1"></script></body
+></html>

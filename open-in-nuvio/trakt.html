@@ -1,1 +1,50 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trakt connection</title><link rel="stylesheet" href="trakt.css"><main><header><h1>Trakt connection</h1><p>Manage your movie and series history and watchlist.</p></header><section><h2>Account connection</h2><p id="connection">Checking connection…</p><div id="manual-setup"><details id="setup"><summary>First-time setup</summary><p>Create a personal API app in <a href="https://app.trakt.tv/oauth/applications" target="_blank" rel="noopener">Trakt’s developer settings</a>. Register this exact redirect URL:</p><input id="redirect" readonly aria-label="OAuth redirect URL"><p>Use the Client ID below. No Client Secret is needed. App registration and account authorization must be completed by you.</p></details><label>Trakt API Client ID<input id="client" autocomplete="off" spellcheck="false"></label></div><div class="buttons"><button id="connect">Connect Trakt</button><button id="disconnect">Disconnect locally</button></div><small>Connection tokens stay in Chrome’s local extension storage on this Mac. Disconnect removes them here; revoke the app in Trakt to revoke access everywhere.</small></section><section id="title-controls" hidden><h2 id="title">Title controls</h2><p id="state"></p><div id="movie-actions" class="buttons" hidden><button id="watched"></button><button id="watchlist"></button></div><a id="original" target="_blank" rel="noopener">View title on Trakt</a></section><p id="notice" role="status" aria-live="polite"></p><p><a href="popup.html">Extension settings</a></p></main><script src="settings.js"></script><script src="series-confirm.js"></script><script src="trakt-account.js"></script></html>
+<!doctype html>
+<html lang="en"
+  ><meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1" /><title>Trakt connection</title
+  ><link rel="stylesheet" href="trakt.css" /><main
+    ><header
+      ><h1>Trakt connection</h1
+      ><p>Manage your movie and series history and watchlist.</p></header
+    ><section
+      ><h2>Account connection</h2><p id="connection">Checking connection…</p
+      ><div id="manual-setup"
+        ><details id="setup"
+          ><summary>First-time setup</summary
+          ><p
+            >Create a personal API app in
+            <a
+              href="https://app.trakt.tv/oauth/applications"
+              target="_blank"
+              rel="noopener"
+              >Trakt’s developer settings</a
+            >. Register this exact redirect URL:</p
+          ><input id="redirect" readonly aria-label="OAuth redirect URL" /><p
+            >Use the Client ID below. No Client Secret is needed. App registration and
+            account authorization must be completed by you.</p
+          ></details
+        ><label
+          >Trakt API Client ID<input
+            id="client"
+            autocomplete="off"
+            spellcheck="false" /></label></div
+      ><div class="buttons"
+        ><button id="connect">Connect Trakt</button
+        ><button id="disconnect">Disconnect locally</button></div
+      ><small
+        >Connection tokens stay in Chrome’s local extension storage on this Mac.
+        Disconnect removes them here; revoke the app in Trakt to revoke access
+        everywhere.</small
+      ></section
+    ><section id="title-controls" hidden
+      ><h2 id="title">Title controls</h2><p id="state"></p
+      ><div id="movie-actions" class="buttons" hidden
+        ><button id="watched"></button><button id="watchlist"></button></div
+      ><a id="original" target="_blank" rel="noopener">View title on Trakt</a></section
+    ><p id="notice" role="status" aria-live="polite"></p
+    ><p><a href="popup.html">Extension settings</a></p></main
+  ><script src="settings.js"></script
+  ><script src="series-confirm.js"></script
+  ><script src="trakt-account.js"></script
+></html>

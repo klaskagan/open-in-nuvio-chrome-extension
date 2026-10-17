@@ -28,6 +28,7 @@ Requires Nuvio Desktop and its registered deep-link handler on macOS. Chrome on 
 Single purpose: navigate between title pages and Nuvio, with optional Trakt title-status controls in the same workflow.
 
 Explain permissions:
+
 - storage: local preferences and optional OAuth credentials; content scripts receive only preferences.
 - identity: Trakt OAuth redirect/authorization flow.
 - contextMenus: optional Open in Nuvio link actions.

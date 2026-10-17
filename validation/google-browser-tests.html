@@ -1,38 +1,73 @@
-<!doctype html><meta charset="utf-8"><title>Google panel extension checks</title>
-<style>body{margin:0;background:#202124;color:#e8eaed;font:16px Arial,sans-serif;padding:42px}.logo{font-size:30px;color:white}.search{display:flex;align-items:center;gap:35px;border-bottom:1px solid #45474b;padding-bottom:25px}.query{background:#303134;border-radius:28px;padding:17px 26px;width:600px;color:#e8eaed}.container{max-width:1050px;margin:30px auto}.title{font-size:30px}.subtitle{color:#bdc1c6;margin:12px 0 24px}.columns{display:grid;grid-template-columns:1fr 400px;gap:35px}.hero{height:215px;background:linear-gradient(130deg,#453452,#2a3455);border-radius:20px;display:grid;place-content:center;font-size:35px}.card{background:#303134;border-radius:16px;padding:20px;margin-bottom:18px}.card h3{font-size:20px;font-weight:400;margin:0 0 24px}.controls{display:flex;justify-content:space-around;margin:5px 0 20px}.control{text-align:center;color:#bdc1c6}.circle{display:block;border:1px solid #9aa0a6;border-radius:50%;width:45px;height:45px;font-size:24px;line-height:45px;margin:0 auto 8px}.rating a{color:#bdc1c6;text-decoration:none}.note{font-size:12px;color:#9aa0a6;line-height:1.5;margin-top:25px}.results{font:13px/1.7 monospace;color:#9cd9bc;margin-top:25px}.fail{color:#ff9e9e}@media(max-width:800px){.columns{grid-template-columns:1fr}.query{width:auto}.search{gap:15px}body{padding:24px}}</style>
+<!doctype html><meta charset="utf-8" /><title>Google panel extension checks</title>
+<style>
+  body{margin:0;background:#202124;color:#e8eaed;font:16px Arial,sans-serif;padding:42px}.logo{font-size:30px;color:white}.search{display:flex;align-items:center;gap:35px;border-bottom:1px solid #45474b;padding-bottom:25px}.query{background:#303134;border-radius:28px;padding:17px 26px;width:600px;color:#e8eaed}.container{max-width:1050px;margin:30px auto}.title{font-size:30px}.subtitle{color:#bdc1c6;margin:12px 0 24px}.columns{display:grid;grid-template-columns:1fr 400px;gap:35px}.hero{height:215px;background:linear-gradient(130deg,#453452,#2a3455);border-radius:20px;display:grid;place-content:center;font-size:35px}.card{background:#303134;border-radius:16px;padding:20px;margin-bottom:18px}.card h3{font-size:20px;font-weight:400;margin:0 0 24px}.controls{display:flex;justify-content:space-around;margin:5px 0 20px}.control{text-align:center;color:#bdc1c6}.circle{display:block;border:1px solid #9aa0a6;border-radius:50%;width:45px;height:45px;font-size:24px;line-height:45px;margin:0 auto 8px}.rating a{color:#bdc1c6;text-decoration:none}.note{font-size:12px;color:#9aa0a6;line-height:1.5;margin-top:25px}.results{font:13px/1.7 monospace;color:#9cd9bc;margin-top:25px}.fail{color:#ff9e9e}@media(max-width:800px){.columns{grid-template-columns:1fr}.query{width:auto}.search{gap:15px}body{padding:24px}}
+</style>
 <div class="search"><div class="logo">Google</div><div class="query">spacejam</div></div>
-<main class="container"><div data-attrid="title" class="title">Kosminis krepšinis</div><div class="subtitle">1996 m. · Vaikams/Sporto · 1 val. 28 min.</div><div class="columns"><div><div class="hero">Space Jam · 1996</div><p class="note">Browser fixture based on the inspected Lithuanian Google film panel. The extension uses the exact title’s IMDb rating link rather than guessing from search text.</p></div><aside><section class="card"><h3>Žiūrėti filmą</h3><div data-attrid="kc:/film/film:media_actions_wholepage"><div class="controls"><div class="control"><span class="circle">▶</span>Žiūrėti dabar</div><div class="control"><span class="circle">✓</span>Žiūrėta</div><div class="control"><span class="circle">▯</span>Noriu žiūrėti</div></div></div></section><section class="card rating" data-md="17"><h3>Įvertinimai</h3><a href="https://www.google.com/goto?url=GoogleMovieRatingToken123">IMDb · 6,5/10</a></section></aside></div><p class="note">Local test fixture, not a live Google screenshot. Chrome messaging is simulated here; the actual background handler is tested separately, including a live Google → IMDb redirect.</p><div class="results" id="results"></div></main>
+<main class="container"
+  ><div data-attrid="title" class="title">Kosminis krepšinis</div
+  ><div class="subtitle">1996 m. · Vaikams/Sporto · 1 val. 28 min.</div
+  ><div class="columns"
+    ><div
+      ><div class="hero">Space Jam · 1996</div
+      ><p class="note"
+        >Browser fixture based on the inspected Lithuanian Google film panel. The
+        extension uses the exact title’s IMDb rating link rather than guessing from search
+        text.</p
+      ></div
+    ><aside
+      ><section class="card"
+        ><h3>Žiūrėti filmą</h3
+        ><div data-attrid="kc:/film/film:media_actions_wholepage"
+          ><div class="controls"
+            ><div class="control"><span class="circle">▶</span>Žiūrėti dabar</div
+            ><div class="control"><span class="circle">✓</span>Žiūrėta</div
+            ><div class="control"><span class="circle">▯</span>Noriu žiūrėti</div></div
+          ></div
+        ></section
+      ><section class="card rating" data-md="17"
+        ><h3>Įvertinimai</h3
+        ><a href="https://www.google.com/goto?url=GoogleMovieRatingToken123"
+          >IMDb · 6,5/10</a
+        ></section
+      ></aside
+    ></div
+  ><p class="note"
+    >Local test fixture, not a live Google screenshot. Chrome messaging is simulated here;
+    the actual background handler is tested separately, including a live Google → IMDb
+    redirect.</p
+  ><div class="results" id="results"></div
+></main>
 <script>
-(async()=>{
- const output=document.querySelector('#results');let n=0;const check=(v,m)=>{if(!v)throw new Error(m);n++;const div=document.createElement('div');div.textContent='PASS '+m;output.append(div)};const wait=()=>new Promise(r=>setTimeout(r,350));
- try{
- history.replaceState({},'','/search?q=spacejam');let messages=0;
- let fixtureSettings;const settingListeners=[];
- window.chrome={storage:{local:{get:async()=>({nuvioSettings:fixtureSettings}),set:async d=>{fixtureSettings=d.nuvioSettings;for(const f of settingListeners)f({nuvioSettings:{newValue:fixtureSettings}},'local');}},onChanged:{addListener:f=>settingListeners.push(f)}},runtime:{sendMessage:async()=>{messages++;await new Promise(r=>setTimeout(r,150));return {identity:{provider:'imdb',id:'tt0117705'}}}}};
- const old=Element.prototype.attachShadow;let ui;Element.prototype.attachShadow=function(o){const s=old.call(this,o);if(this.hasAttribute('data-nuvio-google'))ui=s;return s};
- for(const f of ['settings.js','button-icon.js','google-core.js','google.js'])await new Promise((ok,no)=>{const s=document.createElement('script');s.src='/open-in-nuvio/'+f;s.onload=ok;s.onerror=no;document.head.append(s)});
- const host=()=>document.querySelector('[data-nuvio-google]');const link=c=>ui.querySelector(c);
- check(!host(),'No floating or unresolved buttons during loading');await wait();
- check(host()?.parentElement.getAttribute('data-attrid').endsWith('media_actions_wholepage'),'Buttons appear below Google watch controls');
- check(link('.nuvio').href==='nuvio://imdb/movie/tt0117705','Exact Space Jam movie deep link');
- check(link('.trakt').href==='https://app.trakt.tv/movies/tt0117705','Exact Space Jam Trakt link');
- check(messages===1,'Opaque Google rating resolved only once');
- check(link('.imdb').href==='https://www.imdb.com/title/tt0117705/'&&link('.imdb').target==='_blank','New IMDb button opens exact title in a new tab');
- check(link('.trakt').rel.includes('noopener'),'Trakt new tab is isolated');
- const bounds=host().getBoundingClientRect(),panel=host().parentElement.getBoundingClientRect();check(bounds.left>=panel.left&&bounds.right<=panel.right+1,'Buttons fit inside the watch panel');
- check([...ui.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0),'Both locally bundled icons load');
- const rating=document.querySelector('[data-md="17"] a');const watch=document.querySelector('[data-attrid$="media_actions_wholepage"]');
- history.pushState({},'','/search?q=Breaking+Bad');await wait();check(!host(),'Old movie panel hidden during query navigation');
- document.querySelector('[data-attrid="title"]').textContent='Breaking Bad';watch.setAttribute('data-attrid','kc:/tv/tv_program:media_actions_wholepage');rating.href='https://www.imdb.com/title/tt0903747/';await wait();
- check(link('.nuvio').href==='nuvio://imdb/series/tt0903747','TV panel uses series deep link');check(link('.trakt').href==='https://app.trakt.tv/shows/tt0903747','TV panel uses Trakt show route');
- history.pushState({},'','/search?q=spacejam');document.querySelector('[data-attrid="title"]').textContent='Kosminis krepšinis';watch.setAttribute('data-attrid','kc:/film/film:media_actions_wholepage');rating.href='https://www.imdb.com/title/tt0117705/';await wait();check(host(),'Return query restores movie buttons');
- const pref=NuvioSettings.get();pref.compact=true;pref.linkTarget='same';pref.buttons.google.nuvio=false;await NuvioSettings.save(pref);await wait();
- check(link('.nuvio').style.display==='none','Saved destination preference hides Nuvio live');
- check(link('.trakt').querySelector('span').style.display==='none'&&link('.trakt').getAttribute('aria-label')==='Open in Trakt','Compact mode keeps accessible icon buttons');
- check(link('.trakt').target==='_self'&&link('.imdb').target==='_self','Same-tab setting updates existing links');
- pref.sites.google=false;await NuvioSettings.save(pref);await wait();check(!host(),'Site switch removes Google buttons immediately');
- await NuvioSettings.reset();await wait();check(host()&&link('.trakt').target==='_blank'&&link('.trakt').querySelector('span').style.display==='','Reset restores the original live layout');
- output.append(document.createTextNode(n+' browser checks passed'));document.title=n+' PASS — Google extension tests';
- }catch(e){output.classList.add('fail');output.append(document.createTextNode('FAIL '+e.message));document.title='FAIL — Google extension tests'}
-})();
+  (async()=>{
+   const output=document.querySelector('#results');let n=0;const check=(v,m)=>{if(!v)throw new Error(m);n++;const div=document.createElement('div');div.textContent='PASS '+m;output.append(div)};const wait=()=>new Promise(r=>setTimeout(r,350));
+   try{
+   history.replaceState({},'','/search?q=spacejam');let messages=0;
+   let fixtureSettings;const settingListeners=[];
+   window.chrome={storage:{local:{get:async()=>({nuvioSettings:fixtureSettings}),set:async d=>{fixtureSettings=d.nuvioSettings;for(const f of settingListeners)f({nuvioSettings:{newValue:fixtureSettings}},'local');}},onChanged:{addListener:f=>settingListeners.push(f)}},runtime:{sendMessage:async()=>{messages++;await new Promise(r=>setTimeout(r,150));return {identity:{provider:'imdb',id:'tt0117705'}}}}};
+   const old=Element.prototype.attachShadow;let ui;Element.prototype.attachShadow=function(o){const s=old.call(this,o);if(this.hasAttribute('data-nuvio-google'))ui=s;return s};
+   for(const f of ['settings.js','button-icon.js','google-core.js','google.js'])await new Promise((ok,no)=>{const s=document.createElement('script');s.src='/open-in-nuvio/'+f;s.onload=ok;s.onerror=no;document.head.append(s)});
+   const host=()=>document.querySelector('[data-nuvio-google]');const link=c=>ui.querySelector(c);
+   check(!host(),'No floating or unresolved buttons during loading');await wait();
+   check(host()?.parentElement.getAttribute('data-attrid').endsWith('media_actions_wholepage'),'Buttons appear below Google watch controls');
+   check(link('.nuvio').href==='nuvio://imdb/movie/tt0117705','Exact Space Jam movie deep link');
+   check(link('.trakt').href==='https://app.trakt.tv/movies/tt0117705','Exact Space Jam Trakt link');
+   check(messages===1,'Opaque Google rating resolved only once');
+   check(link('.imdb').href==='https://www.imdb.com/title/tt0117705/'&&link('.imdb').target==='_blank','New IMDb button opens exact title in a new tab');
+   check(link('.trakt').rel.includes('noopener'),'Trakt new tab is isolated');
+   const bounds=host().getBoundingClientRect(),panel=host().parentElement.getBoundingClientRect();check(bounds.left>=panel.left&&bounds.right<=panel.right+1,'Buttons fit inside the watch panel');
+   check([...ui.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0),'Both locally bundled icons load');
+   const rating=document.querySelector('[data-md="17"] a');const watch=document.querySelector('[data-attrid$="media_actions_wholepage"]');
+   history.pushState({},'','/search?q=Breaking+Bad');await wait();check(!host(),'Old movie panel hidden during query navigation');
+   document.querySelector('[data-attrid="title"]').textContent='Breaking Bad';watch.setAttribute('data-attrid','kc:/tv/tv_program:media_actions_wholepage');rating.href='https://www.imdb.com/title/tt0903747/';await wait();
+   check(link('.nuvio').href==='nuvio://imdb/series/tt0903747','TV panel uses series deep link');check(link('.trakt').href==='https://app.trakt.tv/shows/tt0903747','TV panel uses Trakt show route');
+   history.pushState({},'','/search?q=spacejam');document.querySelector('[data-attrid="title"]').textContent='Kosminis krepšinis';watch.setAttribute('data-attrid','kc:/film/film:media_actions_wholepage');rating.href='https://www.imdb.com/title/tt0117705/';await wait();check(host(),'Return query restores movie buttons');
+   const pref=NuvioSettings.get();pref.compact=true;pref.linkTarget='same';pref.buttons.google.nuvio=false;await NuvioSettings.save(pref);await wait();
+   check(link('.nuvio').style.display==='none','Saved destination preference hides Nuvio live');
+   check(link('.trakt').querySelector('span').style.display==='none'&&link('.trakt').getAttribute('aria-label')==='Open in Trakt','Compact mode keeps accessible icon buttons');
+   check(link('.trakt').target==='_self'&&link('.imdb').target==='_self','Same-tab setting updates existing links');
+   pref.sites.google=false;await NuvioSettings.save(pref);await wait();check(!host(),'Site switch removes Google buttons immediately');
+   await NuvioSettings.reset();await wait();check(host()&&link('.trakt').target==='_blank'&&link('.trakt').querySelector('span').style.display==='','Reset restores the original live layout');
+   output.append(document.createTextNode(n+' browser checks passed'));document.title=n+' PASS — Google extension tests';
+   }catch(e){output.classList.add('fail');output.append(document.createTextNode('FAIL '+e.message));document.title='FAIL — Google extension tests'}
+  })();
 </script>
