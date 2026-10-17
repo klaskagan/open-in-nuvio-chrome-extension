@@ -1,0 +1,39 @@
+<!doctype html><meta charset="utf-8"><title>Nuvio extension — browser regression tests</title>
+<style>body{margin:0;background:#18151c;color:#eee;font:16px system-ui;padding:48px}h1{font-size:36px;max-width:720px}.trakt-summary-actions-bar{display:flex;gap:12px;align-items:center;background:#100d13;border-radius:24px;width:280px;height:56px;padding:8px 12px}button{border:0;background:transparent;color:#eee;font-size:22px;padding:10px 16px}.watched{border:1px solid #684377;border-radius:16px;color:#c278de;width:140px}#results{margin-top:40px;line-height:1.8;font:14px monospace}.pass{color:#91dfbc}.fail{color:#ff938d}.note{color:#b6a9bd;max-width:760px;line-height:1.6}</style>
+<h1>Everything Everywhere All at Once</h1><p class="note">2022 · Browser test fixture of Trakt’s action bar. The shipped extension scripts run below with a real IndexedDB title cache. This is a regression test, not a live Trakt screenshot.</p>
+<div class="trakt-summary-actions-bar"><button class="watched" aria-label="Mark watched">✓</button><button aria-label="Watchlist">▮</button><button aria-label="Trailer">▷</button><button class="trakt-media-actions-popup-button" aria-label="More">⋮</button></div>
+<div id="results">Running browser checks…</div>
+<script>
+(async()=>{
+ const results=document.querySelector('#results');results.textContent='';let passed=0;
+ function check(value,label){if(!value)throw new Error(label);passed++;const p=document.createElement('div');p.className='pass';p.textContent='PASS '+label;results.append(p)}
+ const delay=ms=>new Promise(r=>setTimeout(r,ms));
+ try {
+ const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('trakt-query',1);r.onupgradeneeded=()=>r.result.createObjectStore('query-cache');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
+ const key='trakt-query-'+JSON.stringify(['query:movieSummary:v2','schemaHash','dependency:everything-everywhere-all-at-once-2022']);
+ await new Promise((resolve,reject)=>{const tx=db.transaction('query-cache','readwrite');tx.objectStore('query-cache').put({buster:'v3',state:{data:{title:'Everything Everywhere All at Once',slug:'everything-everywhere-all-at-once-2022',type:'movie',tmdbId:545611,imdbId:'tt6710474'}}},key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});db.close();
+ history.replaceState({},'','/movies/everything-everywhere-all-at-once-2022');
+ const attach=Element.prototype.attachShadow;let ui;
+ Element.prototype.attachShadow=function(opts){const shadow=attach.call(this,opts);if(this.hasAttribute('data-nuvio'))ui=shadow;return shadow};
+ window.fetch=async url=>new Response(JSON.stringify({title:'Breaking Bad',ids:{slug:'breaking-bad',tmdb:1396}}),{headers:{'content-type':'application/json'}});
+ for(const f of ['settings.js','button-icon.js','core.js','bridge.js','content.js'])await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/open-in-nuvio/'+f;script.onload=resolve;script.onerror=reject;document.head.append(script)});
+ await delay(700);
+ const link=()=>ui.querySelector('a');
+ check(link().href==='nuvio://tmdb/movie/545611','Real IndexedDB: cached movie resolves without any fetch');
+ check(document.querySelector('.trakt-summary-actions-bar > [data-nuvio]'),'Button lives inside the title action bar');
+ check(ui.querySelector('.imdb')?.href==='https://www.imdb.com/title/tt6710474/'&&!ui.querySelector('.imdb').hidden,'IMDb action uses the exact cached title ID');
+ check(document.querySelector('[data-nuvio]').nextElementSibling?.classList.contains('trakt-media-actions-popup-button'),'Nuvio button sits before the three-dot menu');
+ check(getComputedStyle(document.querySelector('[data-nuvio]')).position==='relative','Button uses inline placement');
+ const rect=document.querySelector('.trakt-summary-actions-bar').getBoundingClientRect(), button=document.querySelector('[data-nuvio]').getBoundingClientRect();
+ check(button.right<=rect.right && button.left>=rect.left,'Button fits inside action bar bounds');
+ check(link().getAttribute('aria-label')==='Open in Nuvio','Launch action has accessible label');
+ history.pushState({},'','/shows/breaking-bad');await delay(300);
+ check(!link().hasAttribute('href'),'SPA navigation clears previous movie link');
+ await fetch('https://apiz.trakt.tv/shows/breaking-bad?extended=full');await delay(100);
+ check(link().href==='nuvio://tmdb/tv/1396','Private apiz.trakt.tv response resolves series');
+ history.pushState({},'','/movies/everything-everywhere-all-at-once-2022');await delay(300);
+ check(link().href==='nuvio://tmdb/movie/545611','Return navigation restores exact cached movie');
+ const final=document.createElement('p');final.textContent=passed+' browser checks passed';final.className='pass';results.append(final);document.title=passed+' PASS — Nuvio browser tests';
+ }catch(e){const p=document.createElement('p');p.className='fail';p.textContent='FAIL '+e.message;results.append(p);document.title='FAIL — Nuvio browser tests'}
+})();
+</script>

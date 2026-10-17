@@ -1,0 +1,119 @@
+{
+  "manifest_version": 3,
+  "name": "Open in Nuvio \u2014 Trakt, IMDb & Google",
+  "version": "1.7.1",
+  "description": "Open exact titles in Nuvio, jump between Trakt and IMDb, and optionally manage Trakt from Google.",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://trakt.tv/*",
+        "https://www.trakt.tv/*",
+        "https://app.trakt.tv/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://trakt.tv/*",
+        "https://www.trakt.tv/*",
+        "https://app.trakt.tv/*"
+      ],
+      "js": [
+        "content-settings.js",
+        "settings.js",
+        "button-icon.js",
+        "core.js",
+        "content.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.imdb.com/*",
+        "https://imdb.com/*",
+        "https://m.imdb.com/*"
+      ],
+      "js": [
+        "content-settings.js",
+        "settings.js",
+        "button-icon.js",
+        "imdb.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://google.com/search*",
+        "https://www.google.com/search*",
+        "https://google.lt/search*",
+        "https://www.google.lt/search*",
+        "https://google.co.uk/search*",
+        "https://www.google.co.uk/search*"
+      ],
+      "js": [
+        "content-settings.js",
+        "settings.js",
+        "button-icon.js",
+        "google-core.js",
+        "series-confirm.js",
+        "google-trakt.js",
+        "google.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://google.com/*",
+    "https://www.google.com/*",
+    "https://google.lt/*",
+    "https://www.google.lt/*",
+    "https://google.co.uk/*",
+    "https://www.google.co.uk/*",
+    "https://imdb.com/*",
+    "https://www.imdb.com/*",
+    "https://m.imdb.com/*",
+    "https://trakt.tv/*",
+    "https://www.trakt.tv/*",
+    "https://app.trakt.tv/*"
+  ],
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "identity"
+  ],
+  "action": {
+    "default_title": "Nuvio settings",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "popup.html",
+    "open_in_tab": true
+  },
+  "optional_host_permissions": [
+    "https://api.trakt.tv/*",
+    "https://auth.trakt.tv/*"
+  ],
+  "commands": {
+    "open-current-nuvio": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Open the current movie or series in Nuvio"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "nuvio-extension-validation",
+  "private": true,
+  "scripts": {
+    "test": "node test.cjs && node cache.cjs && node imdb.cjs && node google.cjs && node context.cjs && node settings.cjs && node trakt.cjs && node trakt-performance.cjs && node trakt-consistency.cjs && node google-alternate.cjs && node google-real-catalog.cjs && node google-gia.cjs && node google-idle.cjs && node features-1.6.cjs && node imdb-hydration.cjs && node adaptive.cjs && node storage-bridge.cjs && node preflight.cjs",
+    "benchmark": "node benchmark-idle.cjs && node benchmark-adaptive.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "22.1.0",
+    "fake-indexeddb": "6.2.4"
+  }
+}

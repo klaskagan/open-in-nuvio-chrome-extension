@@ -1,0 +1,559 @@
+
+> test
+> node test.cjs && node cache.cjs && node imdb.cjs && node google.cjs && node context.cjs && node settings.cjs && node trakt.cjs && node trakt-performance.cjs && node trakt-consistency.cjs && node google-alternate.cjs && node google-real-catalog.cjs && node google-gia.cjs && node google-idle.cjs && node features-1.6.cjs && node imdb-hydration.cjs && node adaptive.cjs && node storage-bridge.cjs && node preflight.cjs
+
+PASS Exact movie, unrelated card ignored
+PASS ID validation 0
+PASS ID validation -1
+PASS ID validation 1e3
+PASS ID validation 9007199254740992
+PASS ID validation 1396
+PASS Foreign TMDB host rejected
+PASS Wrong media type rejected
+PASS SPA clears stale movie ID
+PASS New DOM show link resolved
+PASS Late prior-route data ignored
+PASS Passive fetch bridge resolves exact show
+PASS Season route excluded
+PASS Return route cached correctly
+PASS Widget remounts once after DOM replacement
+PASS Conflicting IDs fail closed
+PASS URL and DOM changing together resolve correctly
+PASS Click during navigation cannot launch stale title
+PASS Manifest asset exists icons/16.png
+PASS Manifest asset exists icons/32.png
+PASS Manifest asset exists icons/48.png
+PASS Manifest asset exists icons/128.png
+PASS Manifest asset exists bridge.js
+PASS Manifest asset exists content-settings.js
+PASS Manifest asset exists settings.js
+PASS Manifest asset exists button-icon.js
+PASS Manifest asset exists core.js
+PASS Manifest asset exists content.js
+PASS Manifest asset exists content-settings.js
+PASS Manifest asset exists settings.js
+PASS Manifest asset exists button-icon.js
+PASS Manifest asset exists imdb.js
+PASS Manifest asset exists content-settings.js
+PASS Manifest asset exists settings.js
+PASS Manifest asset exists button-icon.js
+PASS Manifest asset exists google-core.js
+PASS Manifest asset exists series-confirm.js
+PASS Manifest asset exists google-trakt.js
+PASS Manifest asset exists google.js
+PASS Context menu, local preferences and OAuth permissions; host access restricted to supported sites
+PASS Background worker asset exists
+PASS Right-click asset exists link-core.js
+PASS Right-click asset exists context-menu.js
+PASS Right-click asset exists launch.html
+PASS Right-click asset exists launch.css
+PASS Right-click asset exists launch.js
+PASS Right-click asset exists settings.js
+PASS Right-click asset exists popup.html
+PASS Right-click asset exists popup.css
+PASS Right-click asset exists popup.js
+PASS Right-click asset exists trakt-api.js
+PASS Right-click asset exists google-trakt.js
+PASS Right-click asset exists trakt.html
+PASS Right-click asset exists trakt.css
+PASS Right-click asset exists trakt-account.js
+TOTAL 55 checks passed
+PASS No floating button while action bar is loading
+PASS Resolved metadata does not show a floating button
+PASS Cached EEAAO movie resolves with no network response
+PASS Known title reuses memory result without scanning Trakt IndexedDB again
+PASS Inserted in action bar
+PASS Placed before More menu
+PASS Cached TV title uses tv deep link
+PASS Unrelated cached titles cannot resolve current title
+PASS apiz response allowed
+PASS Button stays hidden when action bar removed
+PASS Widget returns when action bar remounts
+PASS Missing database is never created
+PASS Trakt cache entries unchanged
+TOTAL 13 cache and placement checks passed
+PASS No floating IMDb buttons while loading
+PASS Metadata alone does not show buttons
+PASS Buttons immediately precede the complete watchlist control
+PASS Exact IMDb movie deep link
+PASS Exact Trakt movie route by IMDb ID
+PASS Trakt opens safely in a new tab
+PASS IMDb watchlist button untouched
+PASS Exactly two actions
+PASS Immediate click during SPA navigation cannot open stale movie
+PASS Old title metadata hidden after route change
+PASS TV series uses Nuvio series media type
+PASS TV series uses Trakt shows route
+PASS Miniseries supported
+PASS Episodes excluded
+PASS Video games excluded
+PASS JSON-LD graph matches exact route and ignores another title
+PASS Verified buttons stay visible through temporary watchlist absence
+PASS Watchlist remount restores exactly one widget
+PASS Title subpages excluded
+PASS Malformed metadata never guesses media type
+PASS Foreign metadata URL rejected
+PASS Trakt bridge resolves exact IMDb route alias
+PASS Unmatched IMDb route alias rejected
+TOTAL 23 IMDb and Trakt-alias checks passed
+PASS No floating Google buttons or organic-result guessing
+PASS Movie buttons placed inside native watch section
+PASS Exact Google movie deep link
+PASS Exact Google movie Trakt link
+PASS Direct IMDb links need no network lookup
+PASS Google IMDb action uses exact identity and a new tab
+PASS Google Trakt action uses safe new tab
+PASS Google watched/watchlist controls preserved
+PASS Opaque rating redirect resolves exact ID
+PASS Resolved redirect is not requested repeatedly
+PASS Google stale click blocked immediately after query navigation
+PASS Old rating link hidden on query navigation
+PASS TV marker selects Nuvio series media type
+PASS TV marker selects Trakt shows route
+PASS Conflicting panel IMDb IDs fail closed
+PASS No movie or series marker means no guessed media type
+PASS Without watch controls buttons use ratings card when type is known
+PASS Google image searches excluded
+PASS Foreign identity URLs rejected
+PASS IMDb subpages are not mistaken for title links
+PASS Standard Google URL wrapper decoded
+PASS Foreign redirect hosts rejected
+PASS Malformed redirect token rejected
+PASS Background returns exact IMDb ID from final redirect URL
+PASS Redirect resolver omits cookies and referrer
+PASS Background constructs only approved Google redirect URL
+PASS Background caches repeated redirect resolution
+PASS Background rejects caller host mismatch
+PASS Background rejects another extension sender
+PASS Background rejects non-search sender
+PASS Background rejects arbitrary URL as token
+PASS Background never returns foreign destination identity
+PASS Network failure returns no guessed identity
+TOTAL 33 Google panel and resolver checks passed
+PASS Context menu parent and three supported actions registered
+PASS Menu reinstall does not duplicate entries
+PASS Menu restricted to link contexts
+PASS IMDb movie context opens local launcher with explicit type
+PASS Tracking query removed from launcher source
+PASS IMDb TV menu preserves explicit series choice
+PASS Unsupported foreign link ignored
+PASS Trakt season links rejected
+PASS Script links rejected
+PASS Unknown media type never guessed
+PASS Launcher resolves exact IMDb movie with no network
+PASS Launcher resolves exact IMDb series
+PASS Web page cannot request launcher resolution
+PASS Right-click Google wrapper uses validated redirect resolver
+PASS Trakt lookup opens only the exact title in an inactive tab
+PASS Mismatched Trakt title cannot complete lookup
+PASS Exact Trakt metadata generates correctly typed TMDB link
+PASS Temporary Trakt tab closes after successful resolution
+PASS Trakt IMDb identity works when no TMDB ID exists
+PASS Trakt timeout returns a reviewable error
+PASS Timed-out inactive tab closes
+PASS User-activated lookup tab is not closed
+PASS Closing lookup tab reports cancellation
+PASS Trakt IMDb button hidden until exact IMDb ID exists
+PASS Trakt IMDb button uses exact title ID
+PASS Trakt content reports exact public identity to temporary lookup job
+PASS IMDb-only metadata keeps exact IMDb action available
+PASS New Trakt IMDb action blocks stale navigation click
+TOTAL 28 context-menu and IMDb-action checks passed
+PASS Defaults preserve enabled extension and right-click behaviour
+PASS Default links and labels preserve prior behaviour
+PASS Returned settings cannot mutate internal state
+PASS Invalid setting types use safe defaults
+PASS Partial settings preserve explicit false and default missing fields
+PASS Unknown stored fields are discarded
+PASS Preferences persist to Chrome local storage
+PASS Preferences restored in another extension context
+PASS Storage failures reject without claiming successful changes
+PASS Reset restores the original defaults
+PASS Reset writes only the extension preference key
+PASS Trakt controls default to off
+PASS Trakt control preference persists locally
+PASS Google buttons absent before saved settings finish loading
+PASS Disabled Google site remains hidden after load
+PASS Enabling Google shows buttons on the existing page
+PASS Per-destination controls hide only the requested button
+PASS Same-tab preference applies to both website links
+PASS Compact mode hides button text
+PASS Compact mode preserves accessible name and tooltip
+PASS Normal labels and new tabs restore live
+PASS All destinations off hides the entire button group
+PASS Master pause removes Google buttons
+PASS Master resume restores current-page buttons
+PASS Popup loads saved defaults and enables controls
+PASS Popup persists site and destination switches
+PASS Popup persists all global display/navigation/launch options
+PASS Popup confirms completed saves
+PASS Reopened popup restores saved controls
+PASS Popup reports storage failure instead of Saved
+PASS Reset updates both saved preferences and popup controls
+PASS Cold worker holds menu click while preferences load
+PASS Cold worker completes the first click after loading preferences
+PASS Enabled preference registers right-click menu
+PASS Disabling right-click shortcut removes native menu items live
+PASS Disabled right-click action cannot open launcher
+PASS Master pause removes right-click menu
+PASS Restoring defaults recreates right-click menu
+PASS Trakt buttons respect saved master pause
+PASS Trakt resumes with saved compact/same-tab preferences
+TOTAL 40 settings, popup and live-application checks passed
+PASS Foreign pages rejected
+PASS Google cannot read account metadata
+PASS Management opens through worker without public extension resources
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Exact movie status read
+PASS Tokens never returned to page
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Watchlist add uses verified Trakt ID
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Paginated watchlist read through second page
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Movie watched write followed by authoritative state
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Repeated watched click avoids duplicate history
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Google movie unwatch directly removes viewings
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Repeated unwatch stays idempotent
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Mismatched title rejected
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Rate limits surfaced without write retries
+PASS Disabled controls block API use
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Series season list uses exact show
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Episode chooser reads actual watched progress
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Only selected episode added to history
+PASS Whole series history writes rejected
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Episode removal requires confirmation
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Confirmed removal targets only selected episode
+PASS PKCE S256 authorization on Trakt origin
+PASS No client secret shipped; SHA256 challenge sent
+PASS Mismatched OAuth state rejected before token exchange
+PASS PKCE S256 authorization on Trakt origin
+PASS No client secret shipped; SHA256 challenge sent
+PASS API requests confined to Trakt
+PASS Token exchange omits client secret
+PASS Token exchange includes verifier
+PASS Community configuration connects without user-entered Client ID
+PASS Connection UI knows to hide developer fields for shared app
+PASS PKCE tokens saved locally
+PASS API requests confined to Trakt
+PASS Token exchange omits client secret
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS API requests confined to Trakt
+PASS API uses OAuth without browser cookies
+PASS Expired token refreshed once
+PASS Disconnect removes local tokens
+PASS Both native Google controls replaced
+PASS Original Google actions hidden
+PASS Watchlist click invokes Trakt instead of Google
+PASS Disable/navigation restores native controls
+TOTAL 121 Trakt integration checks passed
+PASS Concurrent cold status requests share three API requests
+PASS Watchlist and watched reads run in parallel
+PASS Warm Google status uses 10-second memory cache with no API calls
+PASS Management reads fresh state while reusing exact title lookup
+PASS Fresh management state updates Google cache
+PASS Status cache expires after 10 seconds without discarding stable title identity
+PASS Watchlist toggles before response
+PASS Both controls remain clickable during saves
+PASS No saving text
+PASS Second control toggles while first request is pending
+PASS Writes are serialized without delaying optimistic UI
+PASS First response cannot overwrite second pending intent
+PASS Second write starts after first acknowledgement
+PASS Server watched side effect reconciled
+PASS Rapid double click immediately shows latest intent
+PASS Earlier unwatch reply cannot flicker latest watched intent
+PASS Failure rolls back only failed operation while later intent stays visible
+PASS Focus neither requests nor remounts controls
+PASS Pushed account updates still reconcile idle controls
+PASS Late reply does not remount controls
+TOTAL 20 Trakt performance checks passed
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Successful add survives stale watchlist GET
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Quick removal still writes when stale GET says absent
+PASS Remove acknowledgement stays unselected
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Successful watched acknowledgement survives stale history
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Direct unwatch writes exact movie despite stale pre-read
+PASS Direct unwatch response clears watched state
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Successful write is not reported as failure when reconciliation read fails
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Trakt reads/writes bypass browser HTTP cache
+PASS Actual write failure still returns an error for UI rollback
+TOTAL 31 Trakt consistency checks passed
+PASS Missing ratings uses panel original-title alias and exact year
+PASS Alternate layout mounts exact movie buttons
+PASS Buttons attach to the alternate watch section
+PASS Old panel is blocked during query navigation
+PASS Real-layout alias recognized: Pirmoji nuodėmė
+PASS Carousel controls mount for Pirmoji nuodėmė
+PASS Real-layout alias recognized: Kapų plėšikė Lara Kroft
+PASS Carousel controls mount for Kapų plėšikė Lara Kroft
+PASS Real-layout alias recognized: Ponas ir ponia Smitai
+PASS Carousel controls mount for Ponas ir ponia Smitai
+PASS Exact organic title and year works locally and rejects remake year
+PASS API fallback accepts unique exact original title/year/type
+PASS Fallback API requests constrained to movie search and year
+PASS Wrong-year API match rejected
+PASS Multiple exact IDs rejected
+PASS Exact Trakt translation accepts localized-only panel
+PASS Mismatched translation rejected
+PASS Complete paginated matches resolve and deduplicate IDs
+PASS Exact result on second page resolves
+PASS Broad localized alias does not block complete original-title search
+PASS Excessively broad search fails with accurate explanation
+PASS Invalid metadata rejected before request
+TOTAL 22 alternate Google layout checks passed
+PASS Numeric year is not sent as a title alias: Mados užkulisiai
+PASS Real catalog lookup resolves Mados užkulisiai
+PASS Numeric year is not sent as a title alias: Visa tiesa apie ryklį
+PASS Real catalog lookup resolves Visa tiesa apie ryklį
+PASS Lookup failures display an inline explanation
+PASS Failure state does not loop network retries
+PASS Retry recovers title lookup
+PASS Successful retry removes error message
+PASS Genuine numeric primary titles remain supported
+PASS Google 2025/Trakt 2026 accepted with exact director
+PASS One-year discrepancy rejected with wrong director
+PASS One-year discrepancy rejected without director
+PASS Two-year discrepancy rejected
+PASS Unmatched numeric title evidence rejected
+TOTAL 14 real catalog regression checks passed
+PASS movie Gia (TV Movie 1998)
+PASS movie Gia (1998)
+PASS movie Gia (TV Series 1998)
+PASS movie Gia (TV Movie 1999)
+PASS movie Gia (Video Game 1998)
+PASS series Gia (TV Series 1998–2000)
+PASS series Gia (TV Movie 1998)
+TOTAL 7 Gia title format checks passed
+PASS Unsupported idle Google search performs no document scans over 100 timer ticks
+PASS Unsupported idle search makes no background requests
+PASS Late movie panel mounts through observer without idle rescans
+PASS Removed controls remount through observer
+PASS Mounted idle panel performs no document scans over 100 timer ticks
+PASS History API navigation removes stale controls without popstate
+PASS Non-film navigation stays clean
+TOTAL 7 idle performance regression checks passed
+PASS Series status represents aired progress
+PASS Plan counts only unwatched aired regular episodes
+PASS Preparing confirmation does not write history
+PASS Series write requires a confirmation plan
+PASS Plan cannot authorize the opposite action
+PASS Confirmed series write updates watched status
+PASS Bulk write targets verified show across seasons
+PASS Already watched episodes are not duplicated
+PASS Specials excluded and watched timestamp provided
+PASS Confirmation plan is single use
+PASS Unwatch confirmation covers aired regular episodes
+PASS Confirmed unwatch uses removal endpoint
+PASS Unwatch also excludes specials
+PASS Series control retains Watched label
+PASS Click opens episode-count confirmation
+PASS Cancel writes nothing
+PASS Series toggles immediately after confirmation before API reply
+PASS Bulk action stays on Google and carries plan token
+PASS Unwatch has separate explicit confirmation
+PASS Navigation/disable dismisses confirmation
+PASS Keyboard command opens current resolved Nuvio title
+PASS Shortcut accepts Trakt TMDB series links
+PASS Shortcut rejects arbitrary navigation URLs
+PASS Paused extension blocks shortcut
+PASS Unsupported pages cannot launch shortcut
+PASS Shipped imdb adapter returns current shortcut URL
+PASS Shipped imdb adapter rejects stale shortcut after navigation
+PASS Shipped trakt adapter returns current shortcut URL
+PASS Shipped trakt adapter rejects stale shortcut after navigation
+PASS Shipped google adapter returns current shortcut URL
+PASS Shipped google adapter rejects stale shortcut after navigation
+PASS Old episode-selection form removed
+TOTAL 32 new feature checks passed
+PASS Metadata removal keeps verified buttons connected
+PASS Watchlist loading gap keeps verified buttons connected
+PASS Returning watchlist preserves the same widget and placement
+PASS IMDb tooltips contain no movie ID
+PASS Hydration replacement repairs widget before delayed update
+PASS A different title never keeps old buttons
+TOTAL 6 IMDb hydration checks passed
+PASS google: new default is Automatic
+PASS google: legacy setting migrates without changing appearance
+PASS google: wide container shows labels
+PASS Threshold buffer prevents resize flicker
+PASS Labels return after sufficient space is available
+PASS google: narrow container switches to icons
+PASS google: observes stable available parent rather than shrinking controls
+PASS google: expanding restores labels
+PASS google: forced Compact ignores width and disconnects observer
+PASS google: forced Labels ignores narrow width
+PASS google: switching back to Automatic recalculates immediately
+PASS imdb: new default is Automatic
+PASS imdb: legacy setting migrates without changing appearance
+PASS imdb: wide container shows labels
+PASS imdb: narrow container switches to icons
+PASS imdb: observes stable available parent rather than shrinking controls
+PASS imdb: expanding restores labels
+PASS imdb: forced Compact ignores width and disconnects observer
+PASS imdb: forced Labels ignores narrow width
+PASS imdb: switching back to Automatic recalculates immediately
+PASS trakt: new default is Automatic
+PASS trakt: legacy setting migrates without changing appearance
+PASS trakt: wide container shows labels
+PASS trakt: narrow container switches to icons
+PASS trakt: observes stable available parent rather than shrinking controls
+PASS trakt: expanding restores labels
+PASS trakt: forced Compact ignores width and disconnects observer
+PASS trakt: forced Labels ignores narrow width
+PASS trakt: switching back to Automatic recalculates immediately
+TOTAL 29 adaptive appearance checks passed
+PASS Worker restricts local storage to trusted contexts
+PASS Approved content page receives preferences
+PASS No credential values or credential reads in settings bridge
+PASS Rejects unauthorized settings request https://www.google.com/search?q=film frame 0
+PASS Rejects unauthorized settings request https://evil.example/search frame 0
+PASS Rejects unauthorized settings request https://www.google.com/search?q=film frame 1
+PASS Rejects unauthorized settings request http://www.google.com/search frame 0
+PASS Rejects unauthorized settings request https://www.google.com/maps frame 0
+PASS Real content adapter loads once without direct storage access
+PASS Worker broadcast updates preferences live
+PASS Other senders cannot overwrite preferences
+PASS Content scripts cannot write trusted settings
+PASS Saved preferences broadcast without tokens
+PASS Identical saved preferences do not repeat broadcasts
+PASS Credential changes do not broadcast settings or tokens
+PASS Storage hardening preserves existing saved connection
+PASS Unreadable content preferences fail closed
+TOTAL 17 trusted storage checks passed
+PASS Release uses Manifest V3
+PASS Supported Chrome baseline declared
+PASS No unrestricted tabs/history/all-sites permissions
+PASS Manifest scripts exist for https://trakt.tv/*
+PASS Manifest scripts exist for https://trakt.tv/*
+PASS Content preferences adapter precedes settings on https://trakt.tv/*
+PASS Manifest scripts exist for https://www.imdb.com/*
+PASS Content preferences adapter precedes settings on https://www.imdb.com/*
+PASS Manifest scripts exist for https://google.com/search*
+PASS Content preferences adapter precedes settings on https://google.com/search*
+PASS Toolbar icon dimensions match 16px
+PASS Toolbar icon dimensions match 32px
+PASS Toolbar icon dimensions match 48px
+PASS Toolbar icon dimensions match 128px
+PASS Release includes LICENSE
+PASS Release includes THIRD-PARTY-NOTICES.md
+PASS Release includes privacy.html
+PASS Release includes licenses/dashboard-icons-Apache-2.0.txt
+PASS No remote executable script in launch.html
+PASS Local HTML resource exists: launch.css
+PASS Local HTML resource exists: settings.js
+PASS Local HTML resource exists: button-icon.js
+PASS Local HTML resource exists: google-core.js
+PASS Local HTML resource exists: link-core.js
+PASS Local HTML resource exists: launch.js
+PASS No remote executable script in popup.html
+PASS Local HTML resource exists: popup.css
+PASS Local HTML resource exists: button-icon.js
+PASS Local HTML resource exists: settings.js
+PASS Local HTML resource exists: popup.js
+PASS No remote executable script in privacy.html
+PASS Local HTML resource exists: trakt.css
+PASS No remote executable script in trakt.html
+PASS Local HTML resource exists: trakt.css
+PASS Local HTML resource exists: settings.js
+PASS Local HTML resource exists: series-confirm.js
+PASS Local HTML resource exists: trakt-account.js
+PASS Development/source build has no bundled account or personal app configuration
+PASS Support contact included
+TOTAL 39 release preflight checks passed
