@@ -43,6 +43,10 @@ Embedded base64 image strings in `button-icon.js` are asset data, not minified a
 
 Recorded fixtures under `validation/fixtures/` and upstream license texts are excluded from formatting. Prettier uses strict HTML whitespace handling and does not reformat embedded template languages, keeping this pass focused on source layout.
 
+## Production packaging
+
+Readable source is also valid production code. The current release builder compresses the ZIP but does not minify scripts. See [release/PRODUCTION-BUILD.md](release/PRODUCTION-BUILD.md) for the current commands and the proposed, not-yet-implemented minification workflow. Never minify files in the editable source directory.
+
 ## Release boundaries
 
 The submitted Store version is 1.7.1. Formatting this repository does not replace the already-submitted ZIP and does not require a new Store upload. Preserve that exact archive for review traceability. Bump the manifest version for the next Store update, and test its packaged build before submission.

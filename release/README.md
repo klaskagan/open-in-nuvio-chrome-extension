@@ -2,6 +2,8 @@
 
 This is a local release-candidate preparation, not a published Chrome Web Store release.
 
+See [PRODUCTION-BUILD.md](PRODUCTION-BUILD.md) for the implemented readable build workflow, performance tradeoffs, and the requirements for an optional future minified pipeline. Minification is not currently implemented.
+
 ## Files
 
 - `PRIVACY.md`: policy text with support contact; publish at a public URL before store submission.
