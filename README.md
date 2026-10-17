@@ -2,6 +2,10 @@
 
 A Chrome Manifest V3 extension for Nuvio Desktop on macOS. Open the current movie or series in Nuvio, jump between Trakt and IMDb, and optionally manage Trakt watched/watchlist status from Google movie/series panels.
 
+## Install the GitHub release
+
+Download `open-in-nuvio-1.7.1-unpacked.zip` from [Releases](https://github.com/klaskagan/open-in-nuvio-chrome-extension/releases), extract it into a permanent folder, and follow [GitHub installation instructions](release/GITHUB-INSTALL.md). This configured download preserves the release extension ID for optional Trakt authorization. The automatically generated Source code ZIP is for development.
+
 ## Install locally
 
 1. Open `chrome://extensions` in desktop Chrome 116 or newer.
