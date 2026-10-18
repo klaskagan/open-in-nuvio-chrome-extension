@@ -43,6 +43,18 @@ Embedded base64 image strings in `button-icon.js` are asset data, not minified a
 
 Recorded fixtures under `validation/fixtures/` and upstream license texts are excluded from formatting. Prettier uses strict HTML whitespace handling and does not reformat embedded template languages, keeping this pass focused on source layout.
 
+## Development installation first
+
+Apply and test runtime changes in the already-loaded unpacked development folder before preparing or publishing release artifacts. Preserve that folder's path and personal Trakt configuration so a Chrome reload keeps its extension identity and connection. Do not use the Store-key test copy as the daily development installation.
+
+If Chrome loads `open-in-nuvio/` directly from this repository, edit it, reload the extension, and refresh website tabs. If Chrome loads a separate stable folder, synchronize after each change:
+
+```sh
+python3 release/sync-development.py --destination /absolute/path/to/already-loaded-extension
+```
+
+The command copies current source in place, preserves the destination's `trakt-config.js`, rejects a release-key installation, and does not delete files. It does not read or modify Chrome's account storage. Back up the folder before a substantial update. Test in the development installation first; package or publish a release only after validation and the publisher's instruction.
+
 ## Production packaging
 
 Readable source is also valid production code. The current release builder compresses the ZIP but does not minify scripts. See [release/PRODUCTION-BUILD.md](release/PRODUCTION-BUILD.md) for the current commands and the proposed, not-yet-implemented minification workflow. Never minify files in the editable source directory.

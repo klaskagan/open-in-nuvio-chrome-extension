@@ -34,6 +34,24 @@ const wait = () => new Promise((r) => setTimeout(r, 300));
   };
   for (const f of ['button-icon.js', 'google-core.js', 'google.js'])
     w.eval(fs.readFileSync(base + f, 'utf8'));
+  for (const prefix of ['', 'it/', 'fr-fr/', 'pt-BR/', 'es/', 'de/', 'ja/', 'zh-CN/']) {
+    const identity = w.NuvioGoogle.identity(
+      'https://www.imdb.com/' + prefix + 'title/tt0816692/',
+    );
+    check(
+      identity?.id === 'tt0816692',
+      'IMDb locale prefix recognized: ' + (prefix || 'canonical'),
+    );
+  }
+  for (const url of [
+    'https://evil.com/it/title/tt0816692/',
+    'https://www.imdb.com/it/name/tt0816692/',
+    'https://www.imdb.com/it/title/tt0816692/reviews/',
+  ])
+    check(
+      !w.NuvioGoogle.identity(url),
+      'Localized path validation remains strict: ' + url,
+    );
   const widget = () => w.document.querySelector('[data-nuvio-google]');
   const link = (c) => w.ui.querySelector(c);
   check(!widget(), 'No floating Google buttons or organic-result guessing');

@@ -14,7 +14,10 @@
       }
       if (u.protocol !== 'https:') return null;
       if (['imdb.com', 'www.imdb.com', 'm.imdb.com'].includes(u.hostname)) {
-        const m = u.pathname.match(/^\/title\/(tt\d{7,12})\/?$/);
+        // IMDb now includes locale prefixes, e.g. /it/title/tt0816692/.
+        const m = u.pathname.match(
+          /^\/(?:[a-z]{2,3}(?:-[a-z]{2}|-\d{3})?\/)?title\/(tt\d{7,12})\/?$/i,
+        );
         return m && { provider: 'imdb', id: m[1] };
       }
     } catch {}

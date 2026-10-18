@@ -1,5 +1,7 @@
 # 1.7.2 — Google localized controls
 
+- Follow-up development fix: accept IMDb locale-prefixed title URLs such as `/it/title/tt0816692/`; these previously blocked title identification and both sets of Google controls. Verified the Italian page in installed Chrome after reloading the development extension.
+
 - Detect watched/watchlist controls through Google action markers, with SVG-shape fallback, rather than translated label matching. Reuse native unselected and selected labels in any language supported by the recognized Google panel layout.
 - Preserve native layout classes and column positions. Match Trakt subtitle typography/spacing to the provider subtitle while retaining purple text.
 - Replace font-dependent bookmark glyphs with outline/filled SVG icons.

@@ -10,3 +10,9 @@ Date: 18 October 2026.
 Tests use simulated Trakt responses and do not write real account history/watchlists. Browser geometry checks use a captured native-layout fixture, not an installed extension running in the user's Chrome session. Final installed-Chrome testing of the 1.7.2 candidate remains appropriate before a Store submission. The existing 1.7.1 GitHub release assets were not replaced.
 
 No production translation table was added. Support is language-independent on recognized Google control layouts; ambiguous or redesigned controls are left untouched. Tooltips, error messages and series confirmations retain their existing language behavior.
+
+## Italian live-page follow-up
+
+The user's Chrome page used IMDb links at `/it/title/tt0816692/`, which the canonical-path-only parser rejected. The parser now accepts optional locale prefixes while retaining HTTPS, host and exact-title-path validation. Added 11 parser checks and 7 end-to-end assertions using a sanitized fixture captured from that actual page. The full suite now passes 682 checks.
+
+The development installation was updated in place. After the user reloaded the extension, the actual Italian Chrome page displayed both navigation buttons and localized Trakt controls, and the authenticated status settled to watched=true/watchlist=false. No history/watchlist writes were performed in the user's account. This follow-up has not been packaged or published as a new release.
