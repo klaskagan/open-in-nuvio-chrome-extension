@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>Native Google control regression</title>
+  <style>
+    body {
+      background: #202124;
+      color: #e8eaed;
+      font: 14px Arial;
+      margin: 24px;
+    }
+    h1 {
+      font-size: 20px;
+    }
+    h2 {
+      font-size: 16px;
+      color: #bdc1c6;
+    }
+    .samples {
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+    .sample {
+      width: 372px;
+      max-width: calc(100vw - 48px);
+    }
+    .sample > div {
+      width: 100%;
+    }
+    pre {
+      white-space: pre-wrap;
+      color: #a9dbb8;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  </style>
+  <h1>Google controls · Latvian layout regression</h1>
+  <div class="samples"
+    ><section class="sample"><h2>Google original</h2><div id="original"></div></section
+    ><section class="sample"
+      ><h2>Trakt replacement</h2><div id="replacement"></div></section
+  ></div>
+  <pre id="result">Loading native fixture…</pre>
+  <script>
+    (async () => {
+      const fixture = await (await fetch('fixtures/google-native-lv.json')).json();
+      if (new URLSearchParams(location.search).has('rtl'))
+        document.documentElement.dir = 'rtl';
+      const style = document.createElement('style');
+      style.textContent = fixture.css;
+      document.head.append(style);
+      for (const id of ['original', 'replacement'])
+        document.getElementById(id).innerHTML = fixture.html;
+      let state = { title: 'Interstellar', watched: false, watchlist: false },
+        calls = 0;
+      window.NuvioSettings = {
+        get: () => ({ enabled: true, sites: { google: true }, traktControls: true }),
+      };
+      window.chrome = {
+        runtime: {
+          id: 'test',
+          onMessage: { addListener() {} },
+          sendMessage: async (m) => {
+            calls++;
+            if (m.action) {
+              state = { ...state, [m.action]: m.desired };
+              if (m.action === 'watched' && m.desired) state.watchlist = false;
+            }
+            return { ...state };
+          },
+        },
+      };
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = '../open-in-nuvio/google-trakt.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.body.append(s);
+      });
+      const target = document.querySelector('#replacement [data-attrid]');
+      await NuvioGoogleTrakt.sync({
+        id: 'tt0816692',
+        kind: 'movie',
+        key: 'native-browser',
+        target,
+        valid: () => true,
+      });
+      const checks = [];
+      function check(v, label) {
+        if (!v) throw Error(label);
+        checks.push('PASS ' + label);
+      }
+      const native = document.querySelector('#original [data-attrid]');
+      for (const [id, action] of [
+        ['lbaHdc', 'watched'],
+        ['NXD9g', 'watchlist'],
+      ]) {
+        const a = native.querySelector('#' + id),
+          b = target.querySelector('[data-nuvio-trakt-control=' + action + ']');
+        const ar = a.getBoundingClientRect(),
+          br = b.getBoundingClientRect();
+        check(
+          Math.abs(ar.width - br.width) < 0.1,
+          action + ': native column width preserved',
+        );
+        const ai = a.querySelector('.niO4u').getBoundingClientRect(),
+          bi = b.querySelector('.niO4u').getBoundingClientRect();
+        check(
+          Math.abs(ai.width - bi.width) < 0.1 && Math.abs(ai.height - bi.height) < 0.1,
+          action + ': native icon dimensions preserved',
+        );
+        check(
+          Math.abs(ai.x - ar.x - (bi.x - br.x)) < 0.1 &&
+            Math.abs(ai.y - ar.y - (bi.y - br.y)) < 0.1,
+          action + ': native icon position preserved',
+        );
+        const la = getComputedStyle(a.querySelector('.QuU3Wb')),
+          lb = getComputedStyle(b.querySelector('.QuU3Wb'));
+        check(
+          la.font === lb.font && la.marginTop === lb.marginTop,
+          action + ': native label typography and spacing preserved',
+        );
+        const sub = getComputedStyle(b.querySelector('small')),
+          provider = getComputedStyle(native.querySelector('.ZYHQ7e'));
+        check(
+          sub.font === provider.font &&
+            sub.lineHeight === provider.lineHeight &&
+            sub.marginTop === provider.marginTop,
+          action + ': subtitle matches provider spacing and font',
+        );
+        check(
+          sub.color === 'rgb(173, 133, 195)',
+          action + ': Trakt subtitle stays purple',
+        );
+      }
+      const hosts = [...target.querySelectorAll('[data-nuvio-trakt-control]')];
+      const before = calls;
+      await NuvioGoogleTrakt.sync({
+        id: 'tt0816692',
+        kind: 'movie',
+        key: 'native-browser',
+        target,
+        valid: () => true,
+      });
+      check(
+        calls === before && hosts.every((e) => e.isConnected),
+        'Idle resync preserves controls and avoids API reads',
+      );
+      window.nativeControlResult = { passed: true, checks: checks.length };
+      document.getElementById('result').textContent = checks.join('\n');
+    })().catch((e) => {
+      window.nativeControlResult = { passed: false, error: e.message };
+      document.getElementById('result').textContent = 'FAIL ' + e.stack;
+    });
+  </script>
+</html>

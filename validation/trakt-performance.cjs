@@ -111,7 +111,7 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms));
     'Status cache expires after 10 seconds without discarding stable title identity',
   );
   const dom = new JSDOM(
-      '<div data-attrid="kc:/film/film:media_actions_wholepage"><button>Žiūrėta</button><button>Noriu žiūrėti</button></div>',
+      '<div data-attrid="kc:/film/film:media_actions_wholepage"><button id="lbaHdc">Žiūrėta</button><button id="NXD9g">Noriu žiūrėti</button></div>',
       { url: 'https://www.google.com/search?q=spacejam', runScripts: 'outside-only' },
     ),
     w = dom.window,
@@ -149,8 +149,8 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms));
     valid: () => true,
   };
   await w.NuvioGoogleTrakt.sync(info);
-  const watchedButton = roots[0].querySelector('button'),
-    listButton = roots[1].querySelector('button'),
+  const watchedButton = info.target.querySelector('[data-nuvio-trakt-control=watched]'),
+    listButton = info.target.querySelector('[data-nuvio-trakt-control=watchlist]'),
     hosts = [...info.target.querySelectorAll('[data-nuvio-trakt-control]')];
   let task = listButton.onclick();
   check(
@@ -161,7 +161,7 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms));
     !listButton.disabled && !watchedButton.disabled,
     'Both controls remain clickable during saves',
   );
-  check(roots[1].querySelector('small').textContent === 'Trakt', 'No saving text');
+  check(listButton.querySelector('small').textContent === 'Trakt', 'No saving text');
   const second = watchedButton.onclick();
   check(
     watchedButton.getAttribute('aria-pressed') === 'true',

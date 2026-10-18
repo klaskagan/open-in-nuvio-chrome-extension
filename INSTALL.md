@@ -1,8 +1,8 @@
-# Open in Nuvio — 1.7.1
+# Open in Nuvio — 1.7.2
 
 ## Update
 
-If you loaded the `open-in-nuvio` folder beside this file, it has been updated in place. In `chrome://extensions`, reload the extension and check version **1.7.1**. Refresh your Google, IMDb, and Trakt tabs. If your installed copy is elsewhere, replace its contents with the new `open-in-nuvio` folder contents first. Keep the installed folder at the same path so its extension ID and OAuth redirect URL remain stable.
+If you loaded the `open-in-nuvio` folder beside this file, it has been updated in place. In `chrome://extensions`, reload the extension and check version **1.7.2**. Refresh your Google, IMDb, and Trakt tabs. If your installed copy is elsewhere, replace its contents with the new `open-in-nuvio` folder contents first. Keep the installed folder at the same path so its extension ID and OAuth redirect URL remain stable.
 
 For a first installation, enable Developer mode in `chrome://extensions`, choose **Load unpacked**, and select the folder containing `manifest.json`. Chrome 116 or later is required. Chrome cannot install this ZIP directly.
 
@@ -138,3 +138,7 @@ Existing saved Compact preferences migrate to Compact; saved non-compact prefere
 Reload the extension **and refresh all supported tabs** after updating: content scripts now load display preferences through the worker instead of accessing local extension storage. OAuth tokens remain in trusted extension storage; existing saved settings and personal connection are not migrated or removed. Live settings still apply to open pages. If the preference bridge is unavailable, controls stay paused until the extension/page is reloaded.
 
 Known Trakt titles now reuse the memory result without another IndexedDB scan. Privacy policy and support links are available in the popup. Original code is licensed MIT; third-party artwork/trademarks have separate notices. Community release still requires the dedicated release app and final redirect/extension ID configuration, plus the installed-build smoke test in release/SMOKE-TEST.md.
+
+## Google language and native layout update (1.7.2)
+
+Google watched/watchlist actions are recognized by structural action markers or known SVG shapes, not a list of translated words. Labels for both selected and unselected states come directly from the page. The replacement retains Google’s layout classes, with a purple Trakt subtitle styled like the provider’s subtitle. Ambiguous or unrecognized controls are left untouched. This covers languages on recognized layouts, not every possible future Google redesign. The navigation-button styling is unchanged.

@@ -19,7 +19,7 @@ Open the movie or series you are viewing in Nuvio Desktop on macOS, directly fro
 
 Trakt connection uses OAuth with PKCE. Each user authorizes their own Trakt account. Movie unwatch removes all recorded viewings; series watched/unwatched actions show an episode-count confirmation, applying to aired regular-season episodes. Specials are excluded.
 
-Supported Google hosts: google.com, google.lt and google.co.uk, including www variants. Google watched/watchlist replacement recognizes English and Lithuanian labels. Layout changes or ambiguous title data can prevent a match; the extension avoids guessing.
+Supported Google hosts: google.com, google.lt and google.co.uk, including www variants. Google watched/watchlist replacement reuses the page’s localized labels and native control layout; it does not depend on a translation list. Layout changes or ambiguous title data can prevent a match; the extension avoids guessing.
 
 Requires Nuvio Desktop and its registered deep-link handler on macOS. Chrome on mobile devices is not the supported target. The extension is independent and not endorsed by Nuvio, Trakt, IMDb or Google.
 

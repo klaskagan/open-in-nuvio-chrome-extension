@@ -151,7 +151,7 @@ const delay = () => new Promise((r) => setTimeout(r, 100));
   );
   // Actual modal and Google control integration in a DOM with dialog API adapters.
   const d = new JSDOM(
-      '<div data-attrid="kc:/tv/tv_program:media_actions_wholepage"><button>Žiūrėta</button><button>Noriu žiūrėti</button></div>',
+      '<div data-attrid="kc:/tv/tv_program:media_actions_wholepage"><button id="lbaHdc">Žiūrėta</button><button id="NXD9g">Noriu žiūrėti</button></div>',
       { url: 'https://www.google.com/search?q=show', runScripts: 'outside-only' },
     ),
     w = d.window,
@@ -198,9 +198,9 @@ const delay = () => new Promise((r) => setTimeout(r, 100));
     target: w.document.querySelector('div'),
     valid: () => valid,
   });
-  const btn = roots[0].root.querySelector('button');
+  const btn = w.document.querySelector('[data-nuvio-trakt-control=watched]');
   check(
-    roots[0].root.querySelector('.label').textContent === 'Žiūrėta',
+    btn.querySelector('.nuvio-trakt-label').textContent === 'Žiūrėta',
     'Series control retains Watched label',
   );
   let action = btn.onclick();

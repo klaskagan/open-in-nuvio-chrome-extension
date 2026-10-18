@@ -23,7 +23,7 @@ Keep the installed folder at the same path when updating, so Chrome retains the 
 - Optional Trakt OAuth with PKCE, optimistic watched/watchlist controls and series confirmation.
 - Local preferences, trusted-context credential storage, no analytics/backend service.
 
-Google support covers .com, .lt and .co.uk (including www). Trakt watched/watchlist replacement recognizes English and Lithuanian controls. Only aired regular-season episodes are included in series actions; specials remain unchanged. Removing watched status removes the corresponding recorded viewings. See INSTALL.md for details and limitations.
+Google support covers .com, .lt and .co.uk (including www). Trakt watched/watchlist controls reuse Google’s existing localized labels and identify actions by their native markers or SVG semantics, without a translation table. Only aired regular-season episodes are included in series actions; specials remain unchanged. Removing watched status removes the corresponding recorded viewings. See INSTALL.md for details and limitations.
 
 ## Trakt application setup
 

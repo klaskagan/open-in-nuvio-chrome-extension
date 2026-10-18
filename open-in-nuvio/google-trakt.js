@@ -14,18 +14,178 @@
       active = null;
     }
   }
-  function native(watch, labels) {
-    const nodes = [...watch.querySelectorAll('span,div,button,a')].filter(
-      (e) =>
-        !e.closest('[data-nuvio-google],[data-nuvio-trakt-control]') &&
-        labels.includes(e.textContent.trim()),
+  // Google localizes labels, but these action markers and SVG shapes are shared.
+  // Never infer the action from column order: provider links and RTL layouts vary.
+  function native(watch, action) {
+    const selector =
+      action === 'watched'
+        ? '#lbaHdc,[jscontroller="I5Flqd"]'
+        : '#NXD9g,[jscontroller="TdUNyc"],[jsname="cJyZJd"][aria-pressed]';
+    const eligible = (node) =>
+      !node.closest('[data-nuvio-google],[data-nuvio-trakt-control]');
+    let nodes = [...watch.querySelectorAll(selector)].filter(eligible);
+    if (!nodes.length) {
+      const paths =
+        action === 'watched'
+          ? ['M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z']
+          : [
+              'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z',
+              'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z',
+            ];
+      nodes = [...watch.querySelectorAll('button,[role="button"],[role="checkbox"]')]
+        .filter(eligible)
+        .filter((node) =>
+          [...node.querySelectorAll('svg path')].some((path) =>
+            paths.includes(path.getAttribute('d')),
+          ),
+        );
+    }
+    nodes = [...new Set(nodes)];
+    return nodes.length === 1 ? nodes[0] : null;
+  }
+  function localizedLabels(node) {
+    const label = node.querySelector('.QuU3Wb');
+    const unselected = label?.querySelector('.ad7nsf');
+    const selected = label?.querySelector('.hg5Jzc');
+    const text = (element) => element?.textContent.trim().replace(/\s+/g, ' ');
+    const fallback =
+      text(label) ||
+      node.getAttribute('aria-label')?.trim() ||
+      text(node.querySelector('span:last-child')) ||
+      text(node);
+    return {
+      unselected: text(unselected) || fallback,
+      selected: text(selected) || fallback,
+    };
+  }
+  function replacement(node, action, watch) {
+    // Keep Google's flex/grid slot, presentation classes, dimensions and text.
+    // Remove all Google behavior and IDs; only Trakt handles this clone's events.
+    const host = node.cloneNode(true);
+    host
+      .querySelectorAll('g-snackbar,[role="dialog"],script,style')
+      .forEach((x) => x.remove());
+    const visual = host.querySelector('[jsname="Q6Aqdc"]');
+    if (visual) host.replaceChildren(visual);
+    for (const element of [host, ...host.querySelectorAll('*')]) {
+      for (const attr of [...element.attributes]) {
+        if (
+          /^(?:id$|js|data-|on|href$|ping$|aria-(?:labelledby|describedby|controls)$)/i.test(
+            attr.name,
+          )
+        )
+          element.removeAttribute(attr.name);
+      }
+    }
+    host.dataset.nuvioTraktControl = action;
+    host.setAttribute('role', 'button');
+    host.setAttribute('tabindex', '0');
+    host.style.cursor = 'pointer';
+    let icon = host.querySelector('.niO4u');
+    if (!icon) {
+      icon = document.createElement('span');
+      host.prepend(icon);
+    }
+    icon.classList.add('nuvio-trakt-icon');
+    icon.setAttribute('aria-hidden', 'true');
+    let label = host.querySelector('.QuU3Wb');
+    if (!label) {
+      label = document.createElement('span');
+      host.replaceChildren(icon, label);
+    }
+    label.classList.add('nuvio-trakt-label');
+    // Match the provider subtitle's typography and spacing; retain Trakt purple.
+    const note = document.createElement('small');
+    const subtitle = watch.querySelector('.Z4yf9b .ZYHQ7e, .tcS2Xc .ZYHQ7e');
+    if (subtitle) {
+      note.className = subtitle.className;
+      const style = getComputedStyle(subtitle);
+      for (const property of [
+        'font-family',
+        'font-size',
+        'font-weight',
+        'font-style',
+        'line-height',
+        'margin-top',
+        'margin-bottom',
+        'padding-top',
+        'padding-bottom',
+      ])
+        note.style.setProperty(property, style.getPropertyValue(property));
+    } else {
+      note.style.cssText =
+        'display:block;font:12px/16px Arial,sans-serif;margin:0;padding:0';
+    }
+    note.style.display = 'block';
+    note.style.color = '#ad85c3';
+    label.after(note);
+    const stop = (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+    host.addEventListener(
+      'click',
+      (event) => {
+        stop(event);
+        void host.onclick?.(event);
+      },
+      true,
     );
-    const controls = new Set(
-      nodes
-        .map((e) => e.closest('button,[role="button"],a') || e.closest('[jsaction]'))
-        .filter((e) => e && watch.contains(e) && e !== watch),
+    host.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          stop(event);
+          if (event.key === 'Enter' && !event.repeat) void host.onclick?.(event);
+        }
+      },
+      true,
     );
-    return controls.size === 1 ? [...controls][0] : null;
+    host.addEventListener(
+      'keyup',
+      (event) => {
+        if (event.key === ' ') {
+          stop(event);
+          void host.onclick?.(event);
+        }
+      },
+      true,
+    );
+    for (const type of [
+      'pointerdown',
+      'pointerup',
+      'mousedown',
+      'mouseup',
+      'touchstart',
+      'touchend',
+      'dblclick',
+      'auxclick',
+    ])
+      host.addEventListener(type, (event) => event.stopPropagation(), true);
+    return { host, button: host, icon, label, note, labels: localizedLabels(node) };
+  }
+  function drawIcon(icon, action, selected) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '20');
+    svg.setAttribute('height', '20');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('focusable', 'false');
+    const path = document.createElementNS(svg.namespaceURI, 'path');
+    path.setAttribute(
+      'd',
+      action === 'watched'
+        ? 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'
+        : selected
+          ? 'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z'
+          : 'M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z',
+    );
+    svg.append(path);
+    icon.replaceChildren(svg);
+    // Accent only; all sizing, alignment, margins and padding stay native.
+    icon.style.color = '#c58be2';
+    icon.style.borderColor = '#a98bbb';
+    icon.style.backgroundColor = selected ? '#653780' : 'transparent';
   }
   async function sync(info) {
     const prefs = NuvioSettings.get();
@@ -38,8 +198,8 @@
       clear();
       return;
     }
-    const watched = native(watch, ['Žiūrėta', 'Watched']),
-      watchlist = native(watch, ['Noriu žiūrėti', 'Want to watch']);
+    const watched = native(watch, 'watched'),
+      watchlist = native(watch, 'watchlist');
     if (
       active?.key === info.key &&
       active.items.every((x) => x.node.isConnected && x.host.isConnected)
@@ -77,11 +237,14 @@
           ctx.state &&
           (x.action === 'watchlist' ? ctx.state.watchlist : ctx.state.watched);
         x.button.setAttribute('aria-pressed', String(Boolean(selected)));
-        x.icon.textContent = x.action === 'watchlist' ? (selected ? '▣' : '▯') : '✓';
+        drawIcon(x.icon, x.action, selected);
+        x.label.textContent = selected ? x.labels.selected : x.labels.unselected;
+        x.button.setAttribute('aria-label', x.label.textContent + ' · Trakt');
         x.button.title = ctx.state
           ? `${ctx.state.title} · Trakt · ${x.action === 'watchlist' ? (selected ? 'Remove from watchlist' : 'Add to watchlist') : selected ? 'Mark unwatched (remove all viewings)' : 'Mark watched now'}`
           : 'Connect Trakt in extension settings';
         x.button.disabled = ctx.loading;
+        x.button.setAttribute('aria-disabled', String(ctx.loading));
         x.button.setAttribute(
           'aria-busy',
           String(ctx.operations.some((op) => op.action === x.action)),
@@ -128,34 +291,12 @@
       [watched, 'watched'],
       [watchlist, 'watchlist'],
     ]) {
-      const host = document.createElement('span');
-      host.dataset.nuvioTraktControl = '';
-      host.style.cssText = 'display:inline-flex;vertical-align:top;';
-      const root = host.attachShadow({ mode: 'closed' });
-      root.innerHTML =
-        '<style>*{box-sizing:border-box}button{display:flex;flex-direction:column;align-items:center;gap:9px;background:transparent;border:0;color:inherit;font:500 14px/1.2 Arial,sans-serif;cursor:pointer;padding:0 10px;min-width:90px}button:disabled{cursor:pointer}.circle{width:48px;height:48px;display:grid;place-items:center;border:1px solid #a98bbb;border-radius:50%;font-size:26px;color:#d6b3ec}button[aria-pressed=true] .circle{background:#653780;border-color:#d7a2f4}small{font:10px Arial;color:#ad85c3}button:focus-visible{outline:2px solid #c78fe8;outline-offset:4px}</style><button type="button" disabled><span class="circle"></span><span class="label"></span><small>Trakt</small></button>';
-      const button = root.querySelector('button'),
-        icon = root.querySelector('.circle');
-      root.querySelector('.label').textContent =
-        node.textContent.includes('Žiūrėta') || node.textContent.includes('Noriu žiūrėti')
-          ? action === 'watched'
-            ? 'Žiūrėta'
-            : 'Noriu žiūrėti'
-          : action === 'watched'
-            ? 'Watched'
-            : 'Want to watch';
+      const control = replacement(node, action, watch);
+      const { host, button } = control;
       const display = node.style.display;
       node.before(host);
       node.style.display = 'none';
-      const x = {
-        host,
-        node,
-        display,
-        button,
-        icon,
-        action,
-        note: root.querySelector('small'),
-      };
+      const x = { ...control, node, display, action };
       ctx.items.push(x);
       button.onclick = async () => {
         if (!valid() || ctx.loading) return;
@@ -218,7 +359,7 @@
         paint();
         for (const x of ctx.items) {
           x.button.title = e.message + ' · Click to connect or manage Trakt';
-          x.icon.textContent = x.action === 'watched' ? '✓' : '▯';
+          drawIcon(x.icon, x.action, false);
         }
       }
     }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Open in Nuvio \u2014 Trakt, IMDb & Google",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Open exact titles in Nuvio, jump between Trakt and IMDb, and optionally manage Trakt from Google.",
   "minimum_chrome_version": "116",
   "icons": {

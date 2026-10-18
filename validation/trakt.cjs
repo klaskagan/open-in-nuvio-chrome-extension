@@ -299,7 +299,7 @@ const check = (v, m) => {
   check(!data.nuvioTrakt, 'Disconnect removes local tokens');
   // Google DOM replacement and restoration use actual content script with simulated account replies.
   const dom = new JSDOM(
-      '<div data-attrid="kc:/film/film:media_actions_wholepage"><button><span>✓</span><span>Žiūrėta</span></button><button><span>▯</span><span>Noriu žiūrėti</span></button></div>',
+      '<div data-attrid="kc:/film/film:media_actions_wholepage"><button id="lbaHdc"><span>✓</span><span>Žiūrėta</span></button><button id="NXD9g"><span>▯</span><span>Noriu žiūrėti</span></button></div>',
       { url: 'https://www.google.com/search?q=spacejam', runScripts: 'outside-only' },
     ),
     w = dom.window;
@@ -337,12 +337,12 @@ const check = (v, m) => {
     'Both native Google controls replaced',
   );
   check(
-    [...target.querySelectorAll(':scope>button')].every(
+    [...target.querySelectorAll(':scope>button:not([data-nuvio-trakt-control])')].every(
       (b) => b.style.display === 'none',
     ),
     'Original Google actions hidden',
   );
-  await roots[1].querySelector('button').onclick();
+  await target.querySelector('[data-nuvio-trakt-control=watchlist]').onclick();
   check(
     calls.some((m) => m.action === 'watchlist' && m.desired === true),
     'Watchlist click invokes Trakt instead of Google',
